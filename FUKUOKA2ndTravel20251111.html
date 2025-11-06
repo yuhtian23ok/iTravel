@@ -1,0 +1,435 @@
+<!-- Chosen Palette: Warm Neutrals & Ocean Accents -->
+<!-- Application Structure Plan: This version V8 includes the user's request to add drugstore shopping (Daikoku/Welcia) to Day 1 afternoon shopping list, alongside the existing Day 3 visit. Confirmed Day 3's Tempura Takao address is correct. -->
+<!-- Visualization & Content Choices: Highly structured text itinerary with detailed time slots. Presentation Method -> Collapsible List/Tabs with Checkboxes and Hyperlinked Address Text (linked to store name search). Interaction -> Tab switching, collapse/expand, persistent checkbox toggles, and direct tap-to-navigate links. NO SVG/Mermaid. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>福岡4日3夜 漫遊計畫 (V8行程 - 雙藥妝採買)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f7f3f0; /* Warm Neutral Background */
+        }
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .tab-button.active {
+            background-color: #1e707e; /* Ocean Accent */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+        .tab-button {
+            transition: all 0.2s;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        .collapse-header {
+            cursor: pointer;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .activity-item {
+            padding: 0.5rem 1rem;
+            border-top: 1px solid #f0f0f0;
+            transition: background-color 0.1s;
+        }
+        .activity-item:hover {
+            background-color: #fcfcfc;
+        }
+        .activity-item input[type="checkbox"] {
+            margin-right: 0.75rem;
+            min-width: 18px;
+            min-height: 18px;
+            border-radius: 4px;
+            border: 1px solid #aaa;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+        .time-box {
+            min-width: 100px; /* Increased for detailed time */
+            text-align: center;
+        }
+        .address-link {
+            color: #1e707e;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<div class="main-container">
+
+    <!-- Header & Title -->
+    <header class="py-6 mb-8 text-center border-b border-gray-200">
+        <h1 class="text-3xl font-bold text-gray-800">福岡4日3夜 漫遊計畫</h1>
+        <p class="text-gray-500 mt-1">天神・博多精華購物與美食之旅 (V8行程 - 已優化)</p>
+    </header>
+
+    <!-- Summary Card -->
+    <div class="card p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-3 text-gray-700">行程總覽與建議</h2>
+        <p class="mb-2 text-gray-600">
+            您的航班時間利用效率極高，建議住宿於 **JR博多城周邊**，以便快速往返機場（6分鐘地鐵）和展開每日行程。總行程為 **4日3夜**。
+        </p>
+        <ul class="text-sm space-y-1 text-gray-500 list-disc list-inside mt-4">
+            <li>**去程**: 06:50 (TPE) → 10:00 (FUK) - 抵達後有完整半日可利用。</li>
+            <li>**回程**: 18:30 (FUK) → 20:10 (TPE) - 最後一天仍有完整半日可利用，並預留 **2小時** 於機場免稅店。</li>
+        </ul>
+    </div>
+
+    <!-- Tab Navigation (Days) -->
+    <div class="flex flex-col md:flex-row bg-white p-2 rounded-xl shadow-inner mb-6 space-y-2 md:space-y-0 md:space-x-2" id="tab-nav">
+        <button class="tab-button active text-sm md:text-base py-2 px-4 rounded-lg bg-gray-100 text-gray-800" data-day="1">Day 1: 博多咖啡與車站周邊</button>
+        <button class="tab-button text-sm md:text-base py-2 px-4 rounded-lg bg-gray-100 text-gray-800" data-day="2">Day 2: Pain Stock, 天神購物與煎餃</button>
+        <button class="tab-button text-sm md:text-base py-2 px-4 rounded-lg bg-gray-100 text-gray-800" data-day="3">Day 3: 藍瓶早餐與深度採買</button>
+        <button class="tab-button text-sm md:text-base py-2 px-4 rounded-lg bg-gray-100 text-gray-800" data-day="4">Day 4: 麵包早餐與機場時光</button>
+    </div>
+
+    <!-- Itinerary Content -->
+    <div id="itinerary-content" class="space-y-6">
+        <!-- Daily Itinerary will be rendered here -->
+    </div>
+
+</div>
+
+<script>
+    const STORAGE_KEY = 'fukuokaTripProgressV8_maplink';
+
+    /**
+     * 建立 Google Maps 超連結，使用店名作為搜尋關鍵字。
+     * @param {string} displayName 顯示給使用者的地址文字 
+     * @param {string} searchQuery 用於 Google Maps 搜尋的店鋪名稱 (通常是 activity.name)
+     * @returns {string} 包含超連結的 HTML 字串
+     */
+    function createMapLink(displayName, searchQuery) {
+        if (!displayName || !searchQuery) return '';
+        // 使用 "福岡, [店名]" 作為精確搜尋，確保在 Google Maps 中直接定位到店家
+        const encodedQuery = encodeURIComponent(`福岡, ${searchQuery}`); 
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedQuery}`;
+        // 顯示地址，但連結目標是店名搜尋
+        return `<a href="${mapUrl}" target="_blank" class="address-link text-sm block mt-1">${displayName}</a>`;
+    }
+
+    // Trip Data Structure (Updated Day 1 based on user's request)
+    const DATA_TRIP = [
+        // Day 1: [Drugstore Added]
+        {
+            day: 1,
+            title: "Day 1: 抵達、飯店寄放行李、FUGLEN 與博多車站周邊",
+            sections: [
+                {
+                    time: "06:50 - 10:30",
+                    theme: "交通與移動",
+                    activities: [
+                        { name: "桃園機場出發", address: "" },
+                        { name: "抵達福岡機場", address: "" },
+                        { name: "搭乘地鐵至博多站", address: "" },
+                        { name: "辦理入住手續並寄放行李 (博多站周邊飯店)", address: "" },
+                    ]
+                },
+                {
+                    time: "11:00 - 12:30",
+                    theme: "午餐與咖啡",
+                    activities: [
+                        { name: "FUGLEN FUKUOKA (挪威風格咖啡廳)", address: "中央区大名1-10-34" },
+                    ]
+                },
+                {
+                    time: "12:30 - 13:30",
+                    theme: "午餐",
+                    activities: [
+                        { name: "ShinShin拉麵 (豚骨拉麵)", address: "博多デイトス 1F" }, 
+                    ]
+                },
+                {
+                    time: "14:00 - 18:00",
+                    theme: "博多車站週邊購物與美食採買",
+                    activities: [
+                        { name: "伊都きんぐ (購買草莓奶昔或甜點)", address: "博多デイトス 1F" },
+                        { name: "mignon (排隊購買可頌)", address: "JR博多城1F" },
+                        { name: "努努鶏 (購買外帶炸雞)", address: "博多マイング" },
+                        { name: "lopia (超市採買)", address: "JR博多城 B1F" },
+                        { name: "BOUL'ANGE (法式麵包/博多採買)", address: "博多デイトス 1F" },
+                        { name: "3coins (雜貨/博多採買)", address: "博多マイング" },
+                        // ADDED DRUGSTORE FOR DAY 1
+                        { name: "藥妝店採買 (大國藥妝/Welcia - 博多地區)", address: "博多車站周邊" },
+                    ]
+                },
+                {
+                    time: "18:30 - 20:00",
+                    theme: "晚餐",
+                    activities: [
+                        { name: "沾麵 麵屋兼虎 (濃郁沾麵)", address: "博多駅東2-1-24" },
+                    ]
+                }
+            ]
+        },
+        // Day 2: (Retained previous changes)
+        {
+            day: 2,
+            title: "Day 2: Pain Stock, 天神精華購物與祇園煎餃",
+            sections: [
+                {
+                    time: "08:00 - 09:30",
+                    theme: "早餐 (頂級麵包)",
+                    activities: [
+                        { name: "Pain Stock (早起前往，以免向隅)", address: "中央区西中洲6-17" },
+                    ]
+                },
+                {
+                    time: "10:00 - 13:00",
+                    theme: "天神深度購物 I (岩田屋周邊)",
+                    activities: [
+                        { name: "THE CONRAN SHOP (生活風格選品店)", address: "中央区天神2-5-35 岩田屋本店 新館 B2F" },
+                        { name: "Kayanoya 茅乃舎 (購買特色湯包)", address: "中央区天神2-5-35 岩田屋本店 本館 B2F" },
+                        { name: "Hoka (運動鞋/戶外用品)", address: "中央区大名1-12-52" },
+                        { name: "MUJI (天神店)", address: "中央区天神2-1-1 福岡三越B2F" },
+                        { name: "UNIQLO (天神店)", address: "中央区天神2-11-1 福岡PARCO本館 4F" },
+                        { name: "Disney Store (天神店)", address: "中央区天神2-11-1 福岡PARCO新館 3F" },
+                    ]
+                },
+                {
+                    time: "13:00 - 14:00",
+                    theme: "午餐",
+                    activities: [
+                        { name: "パンデルソル (美式鄉村風格麵包店)", address: "博多区上川端町9-158" },
+                    ]
+                },
+                {
+                    time: "14:30 - 18:00",
+                    theme: "天神購物 II 與川端通",
+                    activities: [
+                        { name: "韓國百貨プチ・コリア", address: "博多区上川端町9-151 (川端商店街內)" },
+                        { name: "田園的風景蔬菜水果專賣店", address: "博多区上川端町9-146 (川端商店街內)" },
+                        { name: "中山茶舖", address: "博多区上川端町7-15" },
+                    ]
+                },
+                {
+                    time: "18:30 - 20:30",
+                    theme: "晚餐",
+                    activities: [
+                        { name: "博多 祇園 鐵鍋煎餃 (人氣煎餃)", address: "博多区祇園町2-20" },
+                    ]
+                }
+            ]
+        },
+        // Day 3: (Retained previous changes)
+        {
+            day: 3,
+            title: "Day 3: 藍瓶早餐、天神地下街與深度採買",
+            sections: [
+                {
+                    time: "09:00 - 10:30",
+                    theme: "早餐與咖啡",
+                    activities: [
+                        { name: "藍瓶咖啡 (Blue Bottle Coffee)", address: "中央区天神2-6-50 (西鉄天神高速バスターミナルビル周邊)" },
+                    ]
+                },
+                {
+                    time: "10:30 - 12:30",
+                    theme: "天神地下街與甜點",
+                    activities: [
+                        { name: "MACCHA HOUSE 抹茶館", address: "中央区天神2丁目 天神地下街 東7番街" },
+                        { name: "RINGO 天神地下街店 (蘋果派)", address: "中央区天神2丁目 天神地下街 西10番街" },
+                        { name: "I'm donut? (人氣甜甜圈)", address: "中央区天神1-7-11 天神Prime周邊" },
+                        { name: "Full full フルフル パンとワイン (高品質麵包外帶)", address: "中央区西中洲6-17" },
+                    ]
+                },
+                {
+                    time: "12:30 - 14:00",
+                    theme: "午餐",
+                    activities: [
+                        // Confirmed Address
+                        { name: "天婦羅たかお (現炸天婦羅定食)", address: "中央区天神2-11-1 福岡PARCO本館 B1F" }, 
+                    ]
+                },
+                {
+                    time: "14:30 - 18:00",
+                    theme: "天神深度採買 II",
+                    activities: [
+                        { name: "Bic camera (購買藍牙接收器及電器)", address: "中央区天神2-4-5" },
+                        { name: "graniph (T恤設計品牌)", address: "中央区大名1-15-33" },
+                        { name: "rimowa (精品行李箱)", address: "中央区天神1-4-1 大丸福岡天神店" },
+                        { name: "Uptown Deluxe Fukuoka (街頭潮流)", address: "中央区大名1-1-2-2" },
+                        // Drugstore in Tenjin
+                        { name: "藥妝店採買 (大國藥妝/Welcia - 天神地區)", address: "天神周邊" },
+                    ]
+                }
+            ]
+        },
+        // Day 4: (Retained previous changes)
+        {
+            day: 4,
+            title: "Day 4: 麵包早餐與機場時光",
+            sections: [
+                {
+                    time: "08:00 - 10:00",
+                    theme: "早餐與周邊採買",
+                    activities: [
+                        { name: "BOUL'ANGE (享用法式麵包早餐)", address: "博多デイトス 1F" },
+                        { name: "MUJI (最後採買)", address: "博多駅中央街1-1 (JR博多城)" },
+                        { name: "UNIQLO (最後採買)", address: "博多駅中央街1-1 (JR博多城)" },
+                        { name: "3coins (最後採買)", address: "博多マイング" },
+                    ]
+                },
+                {
+                    time: "10:30 - 12:00",
+                    theme: "午餐",
+                    activities: [
+                        { name: "博多車站午餐 (自由選擇)", address: "" },
+                    ]
+                },
+                {
+                    time: "12:30 - 18:30",
+                    theme: "交通與返程",
+                    activities: [
+                        { name: "搭乘地鐵前往福岡機場國際線 (約6分鐘)", address: "福岡市博多区大字青木739" },
+                        { name: "預留 2 小時於機場免稅店逛街", address: "福岡機場國際線" },
+                        { name: "福岡機場出發 (18:30)", address: "" },
+                        { name: "抵達桃園機場 (20:10)", address: "" },
+                    ]
+                }
+            ]
+        }
+    ];
+
+    let tripProgress = {};
+
+    function loadProgress() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            tripProgress = JSON.parse(stored);
+        } else {
+            // Initialize if no stored data
+            DATA_TRIP.forEach(day => {
+                day.sections.forEach(section => {
+                    section.activities.forEach(activity => {
+                        const key = `${day.day}-${section.time}-${activity.name}`;
+                        tripProgress[key] = false;
+                    });
+                });
+            });
+        }
+    }
+
+    function saveProgress() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tripProgress));
+    }
+
+    function handleCheckboxChange(event) {
+        const key = event.target.dataset.key;
+        tripProgress[key] = event.target.checked;
+        saveProgress();
+    }
+
+    function renderItinerary(dayIndex) {
+        const dayData = DATA_TRIP[dayIndex];
+        const contentDiv = document.getElementById('itinerary-content');
+        contentDiv.innerHTML = ''; // Clear previous content
+
+        let html = `<div class="card p-6">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2 border-gray-100">${dayData.title}</h3>`;
+
+        dayData.sections.forEach((section, sectionIndex) => {
+            // Unique ID for collapse functionality
+            const collapseId = `day-${dayData.day}-section-${sectionIndex}`;
+            
+            // Generate a simple, visually distinct color for the time/theme header
+            const headerBgColor = ['bg-blue-50', 'bg-green-50', 'bg-red-50', 'bg-yellow-50'][sectionIndex % 4];
+
+            html += `
+                <div class="mb-4 rounded-lg overflow-hidden border border-gray-200">
+                    <div class="collapse-header ${headerBgColor}" onclick="toggleCollapse('${collapseId}')">
+                        <div class="flex items-center space-x-4">
+                            <span class="font-semibold text-lg text-gray-700 time-box">${section.time}</span>
+                            <span class="text-md text-gray-600">${section.theme}</span>
+                        </div>
+                        <span id="icon-${collapseId}" class="text-gray-500 transform transition-transform duration-200">&#9660;</span> <!-- Down arrow -->
+                    </div>
+                    <div id="${collapseId}" class="collapse-content space-y-0" style="display: block;">
+            `;
+
+            section.activities.forEach(activity => {
+                const key = `${dayData.day}-${section.time}-${activity.name}`;
+                const isChecked = tripProgress[key] || false;
+                
+                // Construct the HTML for the activity name and the optional address link
+                let activityContent = `<span class="text-gray-700">${activity.name}</span>`;
+                
+                // === START OF REQUIRED MODIFICATION ===
+                if (activity.address) {
+                    // Pass the displayed address (activity.address) and the search term (activity.name)
+                    activityContent += createMapLink(activity.address, activity.name);
+                }
+                // === END OF REQUIRED MODIFICATION ===
+
+                html += `
+                    <label class="activity-item flex items-start justify-between">
+                        <span class="flex-1 pr-4">${activityContent}</span>
+                        <input type="checkbox" data-key="${key}" ${isChecked ? 'checked' : ''} onchange="handleCheckboxChange(event)">
+                    </label>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+
+        html += `</div>`;
+        contentDiv.innerHTML = html;
+
+        // Ensure all sections are displayed initially (since display:block is set above)
+    }
+
+    // Global function for collapse toggling
+    window.toggleCollapse = function(id) {
+        const content = document.getElementById(id);
+        const icon = document.getElementById(`icon-${id}`);
+        if (content.style.display === 'block') {
+            content.style.display = 'none';
+            icon.classList.add('rotate-180');
+        } else {
+            content.style.display = 'block';
+            icon.classList.remove('rotate-180');
+        }
+    };
+
+    function setupTabs() {
+        const tabs = document.querySelectorAll('#tab-nav .tab-button');
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderItinerary(index);
+            });
+        });
+    }
+
+    // Initial setup
+    document.addEventListener('DOMContentLoaded', () => {
+        loadProgress();
+        setupTabs();
+        // Render Day 1 by default
+        renderItinerary(0);
+    });
+</script>
+
+</body>
+</html>
