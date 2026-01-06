@@ -1,193 +1,702 @@
-<!-- Chosen Palette: Warm Neutrals & Ocean Accents -->
-<!-- Application Structure Plan: This version V8 includes the user's request to add drugstore shopping (Daikoku/Welcia) to Day 1 afternoon shopping list, alongside the existing Day 3 visit. Confirmed Day 3's Tempura Takao address is correct. -->
-<!-- Visualization & Content Choices: Highly structured text itinerary with detailed time slots. Presentation Method -> Collapsible List/Tabs with Checkboxes and Hyperlinked Address Text (linked to store name search). Interaction -> Tab switching, collapse/expand, persistent checkbox toggles, and direct tap-to-navigate links. NO SVG/Mermaid. -->
-<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026日本中部多代同堂之旅 | SPA 規劃書</title>
+    <title>2026 名古屋・北陸 孝親慢活之旅</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
-        body { font-family: 'Noto Sans TC', sans-serif; scroll-behavior: smooth; }
-       .tab-content { display: none; }
-       .tab-content.active { display: block; }
-       .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: #e5e7eb; }
-    </style>
-</head>
-<body class="bg-slate-50 text-slate-900">
+    
+    <!-- Google Fonts (Noto Sans TC) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
-            <h1 class="font-bold text-xl text-indigo-600">Central Japan 2026</h1>
-            <div class="hidden md:flex space-x-6 text-sm font-medium">
-                <button onclick="showSection('overview')" class="hover:text-indigo-600">行程總覽</button>
-                <button onclick="showSection('transport')" class="hover:text-indigo-600">交通住宿</button>
-                <button onclick="showSection('daily')" class="hover:text-indigo-600">每日行程</button>
-                <button onclick="showSection('food')" class="hover:text-indigo-600">美食地圖</button>
-                <button onclick="showSection('prep')" class="hover:text-indigo-600">行前準備</button>
+    <style>
+        /* Custom Styles & Overrides */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #F9FAFB; /* Warm neutral background */
+            color: #374151;
+        }
+
+        /* Chart Container Styling - Mandatory Requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Hide scrollbar for horizontal scrolling elements but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Timeline Connector Line */
+        .timeline-line {
+            position: absolute;
+            left: 1.25rem; /* Matches pl-5 center */
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #E5E7EB;
+            z-index: 0;
+        }
+
+        /* Active Tab Styling */
+        .tab-active {
+            border-bottom: 2px solid #0F766E; /* Teal-700 */
+            color: #0F766E;
+            font-weight: 600;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals with Teal/Mountain Green Accents. 
+         Background: Gray-50. Text: Gray-700. Accents: Teal-700/Amber-600.
+         Reasoning: Creates a calm, "Slow Travel" vibe suitable for seniors. -->
+
+    <!-- Application Structure Plan: 
+         1. Hero Section: Quick summary of dates, travelers, and countdown.
+         2. Sticky Navigation: Fast access to Itinerary, Transport, Food, Budget, Tips.
+         3. Interactive Route Map (CSS-based): A visual flow of the loop trip.
+         4. Daily Itinerary (Timeline): The core content. Detailed cards with toggle functionality.
+         5. Transport & Budget Analysis: Chart.js visualizations to justify the Pass choice.
+         6. Food Guide: Filterable grid of recommended spots.
+         7. Expert Q&A: Addressing the user's specific questions about Kamikochi/Nara. -->
+    
+    <!-- Visualization & Content Choices:
+         1. Route Visualization -> Goal: Context -> Method: CSS Flexbox Flowchart -> Interaction: None -> Justification: Simple visual reinforcement of the geographical loop.
+         2. Daily Itinerary -> Goal: Guide -> Method: Vertical Timeline Cards -> Interaction: Expand/Collapse details -> Justification: Prevents information overload.
+         3. Budget Breakdown -> Goal: Inform -> Method: Chart.js Doughnut -> Interaction: Tooltip hover -> Justification: Visualizes the 60k TWD distribution.
+         4. Transport Comparison -> Goal: Compare -> Method: Chart.js Bar Chart -> Interaction: None -> Justification: Proves value of the JR Pass.
+         5. Food Map -> Goal: Explore -> Method: Grid cards with JS Filter -> Interaction: Filter by cuisine -> Justification: Helps find food based on current craving. 
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header / Hero -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-teal-800">🏔️ 中部北陸・孝親慢活行</span>
+                </div>
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-8">
+                    <button onclick="switchTab('itinerary')" class="nav-btn tab-active px-3 py-2 text-sm font-medium">行程規劃</button>
+                    <button onclick="switchTab('transport')" class="nav-btn text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">交通攻略</button>
+                    <button onclick="switchTab('food')" class="nav-btn text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">美食地圖</button>
+                    <button onclick="switchTab('budget')" class="nav-btn text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">預算分析</button>
+                    <button onclick="switchTab('tips')" class="nav-btn text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">行前須知 & Q&A</button>
+                </nav>
+                <!-- Mobile Menu Button (Simple logic for demo) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <span class="text-2xl">☰</span>
+                    </button>
+                </div>
             </div>
         </div>
-    </nav>
+        <!-- Mobile Nav Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="switchTab('itinerary')" class="block w-full text-left px-3 py-2 text-base font-medium text-teal-700 bg-gray-50">行程規劃</button>
+                <button onclick="switchTab('transport')" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-50">交通攻略</button>
+                <button onclick="switchTab('food')" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-50">美食地圖</button>
+                <button onclick="switchTab('budget')" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-50">預算分析</button>
+                <button onclick="switchTab('tips')" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-50">行前須知 & Q&A</button>
+            </div>
+        </div>
+    </header>
 
-    <div class="max-w-6xl mx-auto px-4 py-10">
-        
-        <section id="overview" class="tab-content active space-y-8">
-            <div class="bg-indigo-600 text-white rounded-2xl p-8 shadow-xl">
-                <h2 class="text-3xl font-bold mb-4">日本中部 8 日．雪之大谷尊榮行</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-indigo-100 text-sm">
-                    <div>📅 日期: 2026/5/12 - 5/19</div>
-                    <div>👥 成員: 長輩x2, 青年x2</div>
-                    <div>🚅 票券: 立山黑部周遊券</div>
-                    <div>💰 預算: NT$ 60,000+</div>
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Trip Overview Card -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">2026 名古屋、高山、立山黑部 8日遊</h1>
+            <p class="text-gray-600 mb-4">日期：2026/5/12 (二) - 2026/5/19 (二) | 人數：4人 (含長輩)</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-orange-50 p-3 rounded-lg">
+                    <div class="text-xs text-orange-600 font-semibold uppercase">風格</div>
+                    <div class="text-lg font-bold text-gray-700">悠閒慢活</div>
+                </div>
+                <div class="bg-teal-50 p-3 rounded-lg">
+                    <div class="text-xs text-teal-600 font-semibold uppercase">重點</div>
+                    <div class="text-lg font-bold text-gray-700">立山黑部</div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg">
+                    <div class="text-xs text-blue-600 font-semibold uppercase">交通</div>
+                    <div class="text-lg font-bold text-gray-700">JR周遊券</div>
+                </div>
+                <div class="bg-purple-50 p-3 rounded-lg">
+                    <div class="text-xs text-purple-600 font-semibold uppercase">預算</div>
+                    <div class="text-lg font-bold text-gray-700">6萬/人</div>
                 </div>
             </div>
-            
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-indigo-600 mb-2">步調悠閒</h3>
-                    <p class="text-sm text-slate-500">每日僅安排 2-3 個重點，確保長輩有充裕休息與如廁時間。</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-indigo-600 mb-2">深度採購</h3>
-                    <p class="text-sm text-slate-500">集中在 D1 與 D7，鎖定名古屋車站 Uniqlo 與大型藥妝店。</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-indigo-600 mb-2">氣候預備</h3>
-                    <p class="text-sm text-slate-500">涵蓋 5°C 到 25°C 的垂直氣候，著重洋蔥式穿搭建議。</p>
+        </div>
+
+        <!-- Section: Itinerary (Default Visible) -->
+        <section id="itinerary" class="tab-content block animate-fade-in">
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-2 border-l-4 border-teal-600 pl-3">每日行程總覽</h2>
+                <p class="text-gray-600 text-sm mb-4">點擊卡片可查看詳細的時間安排與交通資訊。所有地點皆已連結至 Google Maps。</p>
+                
+                <!-- Timeline Container -->
+                <div class="relative space-y-8 pl-4 md:pl-0" id="timeline-container">
+                    <!-- Timeline items will be injected by JS -->
                 </div>
             </div>
         </section>
 
-        <section id="transport" class="tab-content space-y-8">
-            <div class="bg-white p-6 rounded-xl shadow-sm">
-                <h3 class="text-xl font-bold mb-6">交通時間比較圖 (分鐘)</h3>
-                <div class="h-64">
-                    <canvas id="timeChart"></canvas>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
-                <h3 class="text-xl font-bold">住宿推薦清單</h3>
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div class="border p-4 rounded-lg">
-                        <span class="text-xs font-bold bg-indigo-100 text-indigo-600 px-2 py-1 rounded">名古屋</span>
-                        <h4 class="font-bold mt-2">JR Gate Tower Hotel</h4>
-                        <p class="text-xs text-slate-500">車站直結，採購與移動的最強據點。</p>
-                    </div>
-                    <div class="border p-4 rounded-lg">
-                        <span class="text-xs font-bold bg-green-100 text-green-600 px-2 py-1 rounded">高山</span>
-                        <h4 class="font-bold mt-2">Tokyu Stay Hida Takayama</h4>
-                        <p class="text-xs text-slate-500">房內洗烘衣機，附設足湯與溫泉。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Section: Transport -->
+        <section id="transport" class="tab-content hidden animate-fade-in">
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-2 border-l-4 border-blue-600 pl-3">交通攻略與票券分析</h2>
+                <p class="text-gray-600 mb-6">本次行程橫跨名古屋、岐阜(高山)、富山及長野(松本)。為了節省經費並簡化購票流程，強烈建議購買「立山黑部、高山、松本地區周遊券」。</p>
 
-        <section id="daily" class="tab-content">
-            <h2 class="text-2xl font-bold mb-8">每日行程與時序安排</h2>
-            <div class="relative timeline pl-10 space-y-12">
-                <div class="relative">
-                    <div class="absolute -left-12 top-0 bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-lg">5/12 抵達名站與初探</h3>
-                            <span class="text-xs text-slate-400">CI 154</span>
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <!-- Cost Comparison Chart -->
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="font-bold text-gray-700 mb-4 text-center">票券 CP 值分析 (日幣)</h3>
+                        <div class="chart-container">
+                            <canvas id="transportChart"></canvas>
                         </div>
-                        <p class="text-sm text-slate-600 mt-2">名鐵 μ-SKY -> 入住名站飯店 -> **藥妝與Uniqlo採購**。</p>
-                        <div class="mt-4 flex space-x-2">
-                            <a href="https://maps.app.goo.gl/9QvY9R5n5Y5Y" class="text-xs text-indigo-500 border border-indigo-200 px-2 py-1 rounded hover:bg-indigo-50">名站 Uniqlo</a>
-                            <a href="https://maps.app.goo.gl/ZP5fDDYQUfk" class="text-xs text-indigo-500 border border-indigo-200 px-2 py-1 rounded hover:bg-indigo-50">千里馬藥局</a>
+                        <p class="text-xs text-gray-500 text-center mt-2">單程票總計約 ¥33,000 vs 周遊券 ¥23,800</p>
+                    </div>
+
+                    <!-- Pass Details -->
+                    <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                        <h3 class="font-bold text-blue-800 text-lg mb-3">🎫 推薦票券：立山黑部、高山、松本地區周遊券</h3>
+                        <ul class="space-y-3 text-sm text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2">✓</span>
+                                <div><strong>無限次搭乘 JR：</strong>名古屋 ⇄ 高山 ⇄ 富山、以及 松本 ⇄ 名古屋 的 JR 特急列車 (普通車廂指定席可劃位4次)。</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2">✓</span>
+                                <div><strong>包含立山黑部全線：</strong>包含從富山到信濃大町的所有交通工具 (電車、纜車、無軌電車、巴士)，單程原價就超過 ¥10,000。</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-500 mr-2">✓</span>
+                                <div><strong>有效期：</strong>連續 5 天。我們將在 Day 3 (啟用) 到 Day 7 (回名古屋) 使用，完美覆蓋。</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-red-500 mr-2">!</span>
+                                <div><strong>注意：</strong>Day 2 的馬籠宿行程需另外購票 (不在範圍內)，或補票。Day 4 合掌村巴士需另外購票。</div>
+                            </li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-blue-200">
+                            <a href="https://touristpass.jp/zh-tw/alpine/" target="_blank" class="inline-block bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition text-sm">查看官網詳情 ↗</a>
                         </div>
                     </div>
                 </div>
-                <div class="relative">
-                    <div class="absolute -left-12 top-0 bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">6</div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-red-500">
-                        <h3 class="font-bold text-lg">5/17 立山黑部穿越全日</h3>
-                        <p class="text-sm text-slate-600 mt-2">富山 -> 立山纜車 -> **雪之大谷** -> 黑部水壩 -> 信濃大町。</p>
-                        <p class="text-xs text-red-500 mt-2 font-bold">※ 07:30 JR 富山站開櫃換票</p>
-                        <div class="mt-4">
-                            <a href="https://maps.app.goo.gl/xY3PjXp6Y6Y" class="text-xs text-indigo-500 border border-indigo-200 px-2 py-1 rounded">雪之大谷地圖</a>
+            </div>
+        </section>
+
+        <!-- Section: Food Map -->
+        <section id="food" class="tab-content hidden animate-fade-in">
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-2 border-l-4 border-orange-500 pl-3">中部美食地圖</h2>
+                <p class="text-gray-600 mb-4">名古屋的鰻魚飯、高山的飛驒牛、富山的白蝦。請點擊按鈕篩選您想吃的美食。</p>
+                
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-2 mb-6" id="food-filters">
+                    <button onclick="filterFood('all')" class="food-filter-btn bg-gray-800 text-white px-3 py-1 rounded-full text-sm">全部顯示</button>
+                    <button onclick="filterFood('nagoya')" class="food-filter-btn bg-white border border-gray-300 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-100">名古屋名物</button>
+                    <button onclick="filterFood('hida')" class="food-filter-btn bg-white border border-gray-300 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-100">飛驒牛/高山</button>
+                    <button onclick="filterFood('toyama')" class="food-filter-btn bg-white border border-gray-300 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-100">富山海鮮</button>
+                    <button onclick="filterFood('dessert')" class="food-filter-btn bg-white border border-gray-300 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-100">甜點/喫茶</button>
+                </div>
+
+                <!-- Food Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="food-grid">
+                    <!-- Food items injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Budget -->
+        <section id="budget" class="tab-content hidden animate-fade-in">
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-2 border-l-4 border-purple-600 pl-3">預算規劃 (每人)</h2>
+                <p class="text-gray-600 mb-6">目標預算：60,000 TWD。目前的規劃在預算範圍內，保留了購物與享用美食的彈性。</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="chart-container">
+                        <canvas id="budgetChart"></canvas>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-gray-700">機票 (CI 154/155)</span>
+                                <span class="font-bold text-purple-600">18,000 TWD</span>
+                            </div>
+                            <div class="text-xs text-gray-500">預估價格，含稅與行李。</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-gray-700">住宿 (7晚)</span>
+                                <span class="font-bold text-purple-600">21,000 TWD</span>
+                            </div>
+                            <div class="text-xs text-gray-500">平均 3,000/晚/人。選擇車站附近舒適商務飯店。</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-gray-700">交通 (周遊券+其他)</span>
+                                <span class="font-bold text-purple-600">6,500 TWD</span>
+                            </div>
+                            <div class="text-xs text-gray-500">周遊券約 5,000 + 巴士/地鐵費用。</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-gray-700">餐飲與門票</span>
+                                <span class="font-bold text-purple-600">14,000 TWD</span>
+                            </div>
+                            <div class="text-xs text-gray-500">每日約 2,000 TWD，含兩次大餐。</div>
+                        </div>
+                        <div class="pt-2 border-t border-gray-300 flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">總計預估</span>
+                            <span class="text-xl font-bold text-teal-700">59,500 TWD</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="food" class="tab-content space-y-8">
-            <div class="flex flex-wrap gap-4">
-                <button onclick="filterFood('all')" class="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm">全部</button>
-                <button onclick="filterFood('meat')" class="bg-white text-slate-600 px-4 py-2 rounded-full text-sm shadow-sm border">肉類 (和牛/豬排)</button>
-                <button onclick="filterFood('seafood')" class="bg-white text-slate-600 px-4 py-2 rounded-full text-sm shadow-sm border">海鮮/鰻魚</button>
-            </div>
-            <div id="food-list" class="grid md:grid-cols-3 gap-6">
-                </div>
-        </section>
+        <!-- Section: Tips & Q&A -->
+        <section id="tips" class="tab-content hidden animate-fade-in">
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-2 border-l-4 border-yellow-500 pl-3">行前準備與專家建議</h2>
+                
+                <div class="space-y-6">
+                    <!-- Q1 -->
+                    <div class="bg-yellow-50 rounded-xl p-6 border border-yellow-100">
+                        <h3 class="font-bold text-gray-800 mb-2">Q: 必去立山黑部，想知道上高地與穗高是否同質性高？順路嗎？</h3>
+                        <div class="text-sm text-gray-700 space-y-2">
+                            <p><strong>A: 建議下次再安排上高地。</strong></p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>同質性：</strong>兩者都是「山岳美景」，但體驗不同。立山黑部重在「搭乘多種交通工具翻山越嶺」與「雪牆壯觀」；上高地則重在「平地健行」與「河童橋山水倒影」。對於長輩來說，8天內要塞入這兩個點會非常累。</li>
+                                <li><strong>順路性：</strong>雖然上高地在松本到高山的途中，但為了保持「悠閒」的步調，若強行加入，Day 7 會變成整天都在趕路與走路，無法享受松本市區的愜意。</li>
+                                <li><strong>結論：</strong>這次專注於立山黑部的大山大水，上高地留給未來的「長野深度遊」。</li>
+                            </ul>
+                        </div>
+                    </div>
 
-        <section id="prep" class="tab-content">
-            <div class="bg-white p-8 rounded-2xl shadow-sm space-y-6">
-                <h3 class="text-2xl font-bold">行前清單</h3>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <ul class="space-y-3 text-slate-600 text-sm">
-                        <li>✅ 預約濃飛巴士 (D4 高山-白川鄉)</li>
-                        <li>✅ 預約行李寄送服務 (D6 富山-信濃大町)</li>
-                        <li>✅ 指定席劃位 (名古屋-高山 等)</li>
-                    </ul>
-                    <div class="p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-                        <h4 class="font-bold text-yellow-800 text-sm mb-2">穿著注意</h4>
-                        <p class="text-xs text-yellow-700 leading-relaxed">立山黑部室堂溫差大，必須準備防滑鞋、太陽眼鏡(避免雪盲)與洋蔥式保暖層。</p>
+                    <!-- Q2 -->
+                    <div class="bg-yellow-50 rounded-xl p-6 border border-yellow-100">
+                        <h3 class="font-bold text-gray-800 mb-2">Q: 奈良井宿 vs 馬籠宿/妻籠宿，推薦哪個？</h3>
+                        <div class="text-sm text-gray-700 space-y-2">
+                            <p><strong>A: 推薦馬籠宿/妻籠宿。</strong></p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>地理位置：</strong>您提到 Day 2 行程，從名古屋出發，馬籠宿/妻籠宿位於中津川方向，交通較為直覺，是一日遊的經典路線。奈良井宿位於松本附近，若要安排應放在 Day 7，但 Day 7 已經有松本行程。</li>
+                                <li><strong>觀光體驗：</strong>馬籠宿的地形為石板坡道，非常有特色且熱鬧；妻籠宿則保存了更原始的江戶風情。兩者之間的連接對於長輩可能需要搭巴士，但整體觀光配套較完善。</li>
+                                <li><strong>別擔心誤會：</strong>您提到的「奈良景宿」可能是指「奈良井宿 (Narai-juku)」。如果是指關西的奈良 (Nara)，則完全反方向，絕對不建議。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Checklist -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="font-bold text-gray-800 mb-3">🧳 行前檢查清單</h3>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox text-teal-600"> <span>護照 (有效期6個月以上)</span></label>
+                            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox text-teal-600"> <span>Visit Japan Web 填寫</span></label>
+                            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox text-teal-600"> <span>購買/預約 JR 周遊券</span></label>
+                            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox text-teal-600"> <span>立山黑部開山時間預約</span></label>
+                            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox text-teal-600"> <span>長輩藥品/保暖衣物</span></label>
+                            <label class="flex items-center space-x-2"><input type="checkbox" class="form-checkbox text-teal-600"> <span>墨鏡 (雪地反光強烈)</span></label>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm">Created for 2026 Central Japan Trip.</p>
+            <p class="text-xs mt-2 text-gray-500">此行程為規劃建議，實際時間請以當地交通狀況為準。</p>
+        </div>
+    </footer>
 
     <script>
-        // Tab Navigation Logic
-        function showSection(id) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo(0, 0);
+        // --- Data Definitions ---
+
+        const itineraryData = [
+            {
+                day: 1,
+                date: "5/12 (二)",
+                title: "抵達名古屋，市區漫步",
+                stay: "名古屋車站周邊 (推薦：JR Gate Tower Hotel)",
+                highlights: ["中部國際機場", "名鐵百貨", "世界の山ちゃん"],
+                timeline: [
+                    { time: "14:30", action: "CI 154 抵達中部國際機場", type: "flight", note: "辦理入境，搭乘名鐵 μ-SKY 前往名古屋站 (約28分)" },
+                    { time: "16:00", action: "飯店 Check-in & 購買暖暖包", type: "hotel", note: "車站附近藥妝店 (Matsukiyo) 採購保暖用品" },
+                    { time: "18:00", action: "晚餐：世界の山ちゃん 手羽先", type: "food", link: "https://www.google.com/maps/search/?api=1&query=Sekai+no+Yamachan+Nagoya" },
+                    { time: "20:00", action: "早點休息", type: "rest", note: "為明天行程儲備體力" }
+                ]
+            },
+            {
+                day: 2,
+                date: "5/13 (三)",
+                title: "穿越時空：馬籠宿與妻籠宿",
+                stay: "名古屋車站周邊",
+                highlights: ["中山道", "江戶風情", "五平餅"],
+                timeline: [
+                    { time: "09:00", action: "搭乘 JR 前往中津川站", type: "train", note: "轉乘巴士前往馬籠宿" },
+                    { time: "11:00", action: "漫步馬籠宿", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Magome-juku", note: "石板坡道，風景優美。午餐：蕎麥麵與五平餅" },
+                    { time: "14:00", action: "前往妻籠宿 (視體力)", type: "bus", note: "可搭乘巴士前往妻籠宿，或直接回名古屋逛街" },
+                    { time: "17:30", action: "返回名古屋市區", type: "train", note: "晚餐：矢場頓味噌豬排" }
+                ]
+            },
+            {
+                day: 3,
+                date: "5/14 (四)",
+                title: "搭乘飛驒號，前進高山",
+                stay: "高山站周邊 (推薦：Tokyu Stay Hida Takayama)",
+                highlights: ["飛驒特急風景", "高山老街", "飛驒牛"],
+                note: "★啟用 JR 周遊券 Day 1",
+                timeline: [
+                    { time: "10:48", action: "搭乘 Hida 81號 (飛驒號)", type: "train", note: "欣賞沿途溪谷美景，約 2.5 小時" },
+                    { time: "13:30", action: "抵達高山，飯店寄放行李", type: "hotel", link: "https://www.google.com/maps/search/?api=1&query=Takayama+Station" },
+                    { time: "14:30", action: "高山老街 (三町筋) 散策", type: "walk", note: "品嚐飛驒牛壽司、清酒試飲" },
+                    { time: "18:00", action: "晚餐：味藏天國 (飛驒牛燒肉)", type: "food", link: "https://www.google.com/maps/search/?api=1&query=Ajikura+Tengoku", note: "務必提前預約" }
+                ]
+            },
+            {
+                day: 4,
+                date: "5/15 (五)",
+                title: "童話世界合掌村 & 飛驒古川",
+                stay: "高山站周邊",
+                highlights: ["白川鄉合掌村", "飛驒古川 (你的名字場景)"],
+                timeline: [
+                    { time: "08:50", action: "搭乘濃飛巴士前往白川鄉", type: "bus", note: "需事先預約巴士" },
+                    { time: "09:40", action: "探索合掌村", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Shirakawa-go", note: "城山展望台、和田家參觀" },
+                    { time: "13:30", action: "返回高山，轉 JR 去飛驒古川", type: "train", note: "約 20 分鐘車程" },
+                    { time: "15:00", action: "飛驒古川散步", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Hida+Furukawa", note: "瀨戶川與白壁土藏街，餵鯉魚，人少清幽" },
+                    { time: "18:00", action: "回高山晚餐", type: "food", note: "居酒屋體驗" }
+                ]
+            },
+            {
+                day: 5,
+                date: "5/16 (六)",
+                title: "移動至富山，玻璃之城",
+                stay: "富山站周邊 (推薦：Daiwa Roynet Hotel Toyama)",
+                highlights: ["富山玻璃美術館", "富岩運河環水公園", "白蝦"],
+                note: "★重要：今晚需將大型行李寄至 Day 7 名古屋飯店，或是 Day 6 住宿點(若當天能收)",
+                timeline: [
+                    { time: "10:00", action: "搭乘 Hida 號前往富山", type: "train", note: "約 1.5 小時" },
+                    { time: "12:00", action: "富山站午餐：白蝦亭", type: "food", link: "https://www.google.com/maps/search/?api=1&query=Shiroebitei", note: "必吃白蝦天婦羅丼" },
+                    { time: "14:00", action: "富山玻璃美術館", type: "art", link: "https://www.google.com/maps/search/?api=1&query=Toyama+Glass+Art+Museum", note: "隈研吾設計，建築超美" },
+                    { time: "16:30", action: "富岩運河環水公園", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Fugan+Canal+Kansui+Park", note: "世界最美星巴克喝咖啡" },
+                    { time: "19:00", action: "富山黑拉麵 / 迴轉壽司", type: "food", note: "富山灣壽司極鮮美" }
+                ]
+            },
+            {
+                day: 6,
+                date: "5/17 (日)",
+                title: "重頭戲：立山黑部阿爾卑斯路線",
+                stay: "信濃大町 或 松本 (推薦：松本站周邊)",
+                highlights: ["雪之大谷", "黑部水庫", "六種交通工具"],
+                note: "★需早起！請穿著防風保暖衣物、戴墨鏡。JR Pass 含此段交通。",
+                timeline: [
+                    { time: "07:30", action: "JR富山站取整理券/排隊", type: "ticket", note: "前往電鐵富山站搭車至立山站" },
+                    { time: "09:30", action: "美女平 -> 室堂 (雪之大谷)", type: "bus", note: "高原巴士，欣賞雪牆 (5月中雪牆仍壯觀)" },
+                    { time: "11:00", action: "室堂散策 & 午餐", type: "mountain", link: "https://www.google.com/maps/search/?api=1&query=Murodo", note: "停留約 2-2.5 小時" },
+                    { time: "13:30", action: "大觀峰 -> 黑部平 -> 黑部湖", type: "cablecar", note: "空中纜車與地下電車" },
+                    { time: "15:00", action: "黑部水庫", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Kurobe+Dam", note: "壯觀的水庫建設" },
+                    { time: "16:30", action: "搭電氣巴士至扇澤 -> 巴士至信濃大町", type: "bus", note: "結束穿越行程" },
+                    { time: "18:00", action: "搭電車前往松本住宿", type: "train", note: "宿松本，晚餐松本站周邊" }
+                ]
+            },
+            {
+                day: 7,
+                date: "5/18 (一)",
+                title: "國寶松本城，返回名古屋購物",
+                stay: "名古屋車站周邊",
+                highlights: ["松本城", "大須商店街", "購物"],
+                timeline: [
+                    { time: "09:30", action: "松本城 (國寶五城)", type: "history", link: "https://www.google.com/maps/search/?api=1&query=Matsumoto+Castle", note: "黑色城堡非常獨特，園區散步" },
+                    { time: "12:00", action: "午餐：松本蕎麥麵", type: "food", note: "信州蕎麥麵聞名" },
+                    { time: "13:53", action: "搭乘 Shinano 特急回名古屋", type: "train", note: "約 2 小時，使用 JR Pass" },
+                    { time: "16:00", action: "名古屋購物時間", type: "shopping", link: "https://www.google.com/maps/search/?api=1&query=JR+Takashimaya+Nagoya", note: "JR 高島屋 / Uniqlo / Bic Camera / 大國藥妝" },
+                    { time: "19:00", action: "慶功宴：蓬萊軒 鰻魚飯", type: "food", link: "https://www.google.com/maps/search/?api=1&query=Atsuta+Horaiken", note: "需排隊，建議提前去本店或百貨店抽號碼牌" }
+                ]
+            },
+            {
+                day: 8,
+                date: "5/19 (二)",
+                title: "悠閒早餐，滿載而歸",
+                stay: "溫暖的家",
+                highlights: ["中部國際機場逛街", "回程"],
+                timeline: [
+                    { time: "09:00", action: "悠閒早餐 & 最後整理", type: "rest", note: "檢查護照與戰利品" },
+                    { time: "10:30", action: "前往中部國際機場", type: "train", note: "搭乘 μ-SKY" },
+                    { time: "11:15", action: "機場逛街 (Flight of Dreams)", type: "shopping", note: "機場非常好逛，有蝦餅可買" },
+                    { time: "13:15", action: "CI 155 起飛", type: "flight", note: "預計 15:20 抵達台灣" }
+                ]
+            }
+        ];
+
+        const foodData = [
+            { name: "あつた蓬莱軒", type: "nagoya", desc: "名古屋必吃鰻魚飯三吃 (Hitsumabushi)，歷史悠久的老店。", map: "https://www.google.com/maps/search/?api=1&query=Atsuta+Horaiken" },
+            { name: "矢場とん", type: "nagoya", desc: "味噌豬排代表店，醬汁濃郁，非常下飯。", map: "https://www.google.com/maps/search/?api=1&query=Yabaton" },
+            { name: "世界的山將", type: "nagoya", desc: "夢幻手羽先 (炸雞翅)，胡椒味重，適合作為宵夜。", map: "https://www.google.com/maps/search/?api=1&query=Sekai+no+Yamachan" },
+            { name: "味藏天國", type: "hida", desc: "高山車站旁，JA農協直營的飛驒牛燒肉，CP值極高。", map: "https://www.google.com/maps/search/?api=1&query=Ajikura+Tengoku" },
+            { name: "坂口屋", type: "hida", desc: "高山老街內，飛驒牛握壽司放在仙貝上，邊走邊吃。", map: "https://www.google.com/maps/search/?api=1&query=Sakaguchiya" },
+            { name: "白蝦亭 (白えび亭)", type: "toyama", desc: "位於富山車站內，必點白蝦天婦羅丼，酥脆鮮甜。", map: "https://www.google.com/maps/search/?api=1&query=Shiroebitei" },
+            { name: "西茶屋 (Nishi Chaya)", type: "toyama", desc: "富山灣壽司，新鮮直送的海鮮，價格合理。", map: "https://www.google.com/maps/search/?api=1&query=Toyama+Sushi" },
+            { name: "Konparu (コンパル)", type: "dessert", desc: "名古屋老牌喫茶店，炸蝦三明治是經典早餐。", map: "https://www.google.com/maps/search/?api=1&query=Konparu+Nagoya" },
+            { name: "HARBS 本店", type: "dessert", desc: "源自名古屋的水果千層蛋糕，Sakae本店限定午間套餐。", map: "https://www.google.com/maps/search/?api=1&query=HARBS+Sakae" },
+            { name: "茶房 布久庵", type: "dessert", desc: "高山古民家改建的甜點店，蕨餅與抹茶非常棒。", map: "https://www.google.com/maps/search/?api=1&query=Fukuan+Takayama" }
+        ];
+
+        // --- Logic & Render Functions ---
+
+        // Tab Switching
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            // Show selected
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            // Update Desktop Buttons
+            document.querySelectorAll('nav .nav-btn').forEach(btn => {
+                btn.classList.remove('tab-active', 'text-teal-700');
+                btn.classList.add('text-gray-500');
+                if (btn.getAttribute('onclick').includes(tabId)) {
+                    btn.classList.add('tab-active');
+                    btn.classList.remove('text-gray-500');
+                }
+            });
+
+            // Update Mobile Menu visual state (simplified)
+            document.getElementById('mobile-menu').classList.add('hidden');
         }
 
-        // Chart.js Configuration
-        const ctx = document.getElementById('timeChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels:,
-                datasets: [{
-                    label: '移動耗時 (分鐘)',
-                    data: ,
-                    backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444'],
-                    borderRadius: 8
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
         });
 
-        // Food Filtering Logic
-        const restaurants =;
+        // Icon Helper
+        function getIcon(type) {
+            const icons = {
+                flight: '✈️',
+                train: '🚅',
+                bus: '🚌',
+                hotel: '🏨',
+                food: '🍱',
+                walk: '🚶',
+                ticket: '🎫',
+                mountain: '🏔️',
+                cablecar: '🚠',
+                shopping: '🛍️',
+                rest: '🛌',
+                history: '🏯',
+                art: '🎨'
+            };
+            return icons[type] || '📍';
+        }
 
-        function filterFood(type) {
-            const container = document.getElementById('food-list');
-            container.innerHTML = '';
-            const filtered = type === 'all'? restaurants : restaurants.filter(r => r.type === type);
-            filtered.forEach(r => {
-                container.innerHTML += `
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:border-indigo-200 transition">
-                        <h4 class="font-bold text-lg">${r.name}</h4>
-                        <p class="text-sm text-slate-500 mt-2">${r.desc}</p>
-                        <a href="${r.link}" target="_blank" class="mt-4 inline-block text-xs font-bold text-indigo-600">在 Google Maps 開啟 →</a>
+        // Render Itinerary
+        function renderItinerary() {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = `<div class="timeline-line"></div>`; // Reset and add line
+
+            itineraryData.forEach((day, index) => {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'relative mb-8 ml-8 group';
+                
+                // Dot
+                const dot = document.createElement('div');
+                dot.className = 'absolute -left-10 top-1 w-5 h-5 rounded-full bg-teal-500 border-4 border-white shadow-sm z-10';
+                dayCard.appendChild(dot);
+
+                // Content
+                let timelineHTML = '';
+                day.timeline.forEach(item => {
+                    const linkBtn = item.link ? `<a href="${item.link}" target="_blank" class="text-teal-600 hover:text-teal-800 ml-2 text-xs border border-teal-200 px-1 rounded">📍地圖</a>` : '';
+                    timelineHTML += `
+                        <div class="flex items-start mb-3 last:mb-0">
+                            <div class="w-16 flex-shrink-0 text-sm font-bold text-gray-500">${item.time}</div>
+                            <div class="flex-grow pb-2 border-b border-gray-100 last:border-0">
+                                <div class="text-sm font-semibold text-gray-800">${getIcon(item.type)} ${item.action} ${linkBtn}</div>
+                                ${item.note ? `<div class="text-xs text-gray-500 mt-0.5">${item.note}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                dayCard.innerHTML += `
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center cursor-pointer" onclick="toggleDay(this)">
+                            <div>
+                                <span class="text-teal-700 font-bold mr-2">Day ${day.day}</span>
+                                <span class="text-gray-600 text-sm font-medium">${day.date}</span>
+                                <h3 class="text-lg font-bold text-gray-800 leading-tight mt-1">${day.title}</h3>
+                            </div>
+                            <div class="text-gray-400 transform transition-transform duration-200">▼</div>
+                        </div>
+                        <div class="p-4 hidden day-details">
+                            <div class="mb-3 text-xs bg-yellow-50 text-yellow-800 p-2 rounded">
+                                🏠 住宿：${day.stay} <br>
+                                ✨ 亮點：${day.highlights.join('、')}
+                                ${day.note ? `<br>⚠️ ${day.note}` : ''}
+                            </div>
+                            <div>${timelineHTML}</div>
+                        </div>
                     </div>
                 `;
+                container.appendChild(dayCard);
             });
         }
-        filterFood('all');
+
+        // Toggle Day Details
+        function toggleDay(header) {
+            const details = header.nextElementSibling;
+            const arrow = header.querySelector('div:last-child');
+            
+            if (details.classList.contains('hidden')) {
+                details.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+                header.classList.add('bg-teal-50'); // Highlight active
+            } else {
+                details.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+                header.classList.remove('bg-teal-50');
+            }
+        }
+
+        // Render Food
+        function renderFood(filter = 'all') {
+            const grid = document.getElementById('food-grid');
+            grid.innerHTML = '';
+            
+            const filteredData = filter === 'all' ? foodData : foodData.filter(item => item.type === filter);
+            
+            filteredData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg p-5 shadow-sm border border-gray-200 hover:shadow-md transition';
+                
+                let tagColor = 'bg-gray-100 text-gray-600';
+                let tagText = '其他';
+                if(item.type === 'nagoya') { tagColor = 'bg-orange-100 text-orange-700'; tagText = '名古屋'; }
+                if(item.type === 'hida') { tagColor = 'bg-red-100 text-red-700'; tagText = '高山/飛驒'; }
+                if(item.type === 'toyama') { tagColor = 'bg-blue-100 text-blue-700'; tagText = '富山'; }
+                if(item.type === 'dessert') { tagColor = 'bg-pink-100 text-pink-700'; tagText = '甜點'; }
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-lg text-gray-800">${item.name}</h3>
+                        <span class="${tagColor} text-xs px-2 py-1 rounded-full">${tagText}</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4 h-10 overflow-hidden">${item.desc}</p>
+                    <a href="${item.map}" target="_blank" class="block text-center w-full bg-white border border-teal-500 text-teal-600 py-1.5 rounded text-sm hover:bg-teal-50 transition">
+                        📍 Google Maps 導航
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Food Handler
+        function filterFood(type) {
+            // Update Buttons
+            document.querySelectorAll('.food-filter-btn').forEach(btn => {
+                const btnType = btn.getAttribute('onclick').split("'")[1];
+                if (btnType === type) {
+                    btn.className = "food-filter-btn bg-gray-800 text-white px-3 py-1 rounded-full text-sm shadow-md";
+                } else {
+                    btn.className = "food-filter-btn bg-white border border-gray-300 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-100";
+                }
+            });
+            renderFood(type);
+        }
+
+        // Initialize Charts
+        function initCharts() {
+            // Transport Chart
+            const ctxTrans = document.getElementById('transportChart').getContext('2d');
+            new Chart(ctxTrans, {
+                type: 'bar',
+                data: {
+                    labels: ['JR單程票總計', '周遊券'],
+                    datasets: [{
+                        label: '費用 (日幣)',
+                        data: [33000, 23800],
+                        backgroundColor: ['#E5E7EB', '#0F766E'],
+                        borderWidth: 0,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Budget Chart
+            const ctxBudget = document.getElementById('budgetChart').getContext('2d');
+            new Chart(ctxBudget, {
+                type: 'doughnut',
+                data: {
+                    labels: ['機票', '住宿', '交通', '餐飲門票'],
+                    datasets: [{
+                        data: [18000, 21000, 6500, 14000],
+                        backgroundColor: ['#A78BFA', '#FBCFE8', '#99F6E4', '#FDE68A'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderItinerary();
+            renderFood();
+            initCharts();
+            // Default active
+            document.querySelector('[onclick="switchTab(\'itinerary\')"]').classList.add('tab-active');
+            
+            // Expand Day 1 by default
+            const firstDay = document.querySelector('.timeline-line').nextElementSibling;
+            if(firstDay) toggleDay(firstDay.querySelector('.bg-gray-50'));
+        });
+
     </script>
 </body>
 </html>
