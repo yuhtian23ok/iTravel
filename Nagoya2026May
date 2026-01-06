@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026日本中部多代同堂之旅 | SPA 規劃書</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; scroll-behavior: smooth; }
+       .tab-content { display: none; }
+       .tab-content.active { display: block; }
+       .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: #e5e7eb; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
+            <h1 class="font-bold text-xl text-indigo-600">Central Japan 2026</h1>
+            <div class="hidden md:flex space-x-6 text-sm font-medium">
+                <button onclick="showSection('overview')" class="hover:text-indigo-600">行程總覽</button>
+                <button onclick="showSection('transport')" class="hover:text-indigo-600">交通住宿</button>
+                <button onclick="showSection('daily')" class="hover:text-indigo-600">每日行程</button>
+                <button onclick="showSection('food')" class="hover:text-indigo-600">美食地圖</button>
+                <button onclick="showSection('prep')" class="hover:text-indigo-600">行前準備</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        
+        <section id="overview" class="tab-content active space-y-8">
+            <div class="bg-indigo-600 text-white rounded-2xl p-8 shadow-xl">
+                <h2 class="text-3xl font-bold mb-4">日本中部 8 日．雪之大谷尊榮行</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-indigo-100 text-sm">
+                    <div>📅 日期: 2026/5/12 - 5/19</div>
+                    <div>👥 成員: 長輩x2, 青年x2</div>
+                    <div>🚅 票券: 立山黑部周遊券</div>
+                    <div>💰 預算: NT$ 60,000+</div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-indigo-600 mb-2">步調悠閒</h3>
+                    <p class="text-sm text-slate-500">每日僅安排 2-3 個重點，確保長輩有充裕休息與如廁時間。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-indigo-600 mb-2">深度採購</h3>
+                    <p class="text-sm text-slate-500">集中在 D1 與 D7，鎖定名古屋車站 Uniqlo 與大型藥妝店。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-indigo-600 mb-2">氣候預備</h3>
+                    <p class="text-sm text-slate-500">涵蓋 5°C 到 25°C 的垂直氣候，著重洋蔥式穿搭建議。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="transport" class="tab-content space-y-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-xl font-bold mb-6">交通時間比較圖 (分鐘)</h3>
+                <div class="h-64">
+                    <canvas id="timeChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+                <h3 class="text-xl font-bold">住宿推薦清單</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="border p-4 rounded-lg">
+                        <span class="text-xs font-bold bg-indigo-100 text-indigo-600 px-2 py-1 rounded">名古屋</span>
+                        <h4 class="font-bold mt-2">JR Gate Tower Hotel</h4>
+                        <p class="text-xs text-slate-500">車站直結，採購與移動的最強據點。</p>
+                    </div>
+                    <div class="border p-4 rounded-lg">
+                        <span class="text-xs font-bold bg-green-100 text-green-600 px-2 py-1 rounded">高山</span>
+                        <h4 class="font-bold mt-2">Tokyu Stay Hida Takayama</h4>
+                        <p class="text-xs text-slate-500">房內洗烘衣機，附設足湯與溫泉。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="daily" class="tab-content">
+            <h2 class="text-2xl font-bold mb-8">每日行程與時序安排</h2>
+            <div class="relative timeline pl-10 space-y-12">
+                <div class="relative">
+                    <div class="absolute -left-12 top-0 bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-lg">5/12 抵達名站與初探</h3>
+                            <span class="text-xs text-slate-400">CI 154</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-2">名鐵 μ-SKY -> 入住名站飯店 -> **藥妝與Uniqlo採購**。</p>
+                        <div class="mt-4 flex space-x-2">
+                            <a href="https://maps.app.goo.gl/9QvY9R5n5Y5Y" class="text-xs text-indigo-500 border border-indigo-200 px-2 py-1 rounded hover:bg-indigo-50">名站 Uniqlo</a>
+                            <a href="https://maps.app.goo.gl/ZP5fDDYQUfk" class="text-xs text-indigo-500 border border-indigo-200 px-2 py-1 rounded hover:bg-indigo-50">千里馬藥局</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="absolute -left-12 top-0 bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">6</div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-red-500">
+                        <h3 class="font-bold text-lg">5/17 立山黑部穿越全日</h3>
+                        <p class="text-sm text-slate-600 mt-2">富山 -> 立山纜車 -> **雪之大谷** -> 黑部水壩 -> 信濃大町。</p>
+                        <p class="text-xs text-red-500 mt-2 font-bold">※ 07:30 JR 富山站開櫃換票</p>
+                        <div class="mt-4">
+                            <a href="https://maps.app.goo.gl/xY3PjXp6Y6Y" class="text-xs text-indigo-500 border border-indigo-200 px-2 py-1 rounded">雪之大谷地圖</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="food" class="tab-content space-y-8">
+            <div class="flex flex-wrap gap-4">
+                <button onclick="filterFood('all')" class="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm">全部</button>
+                <button onclick="filterFood('meat')" class="bg-white text-slate-600 px-4 py-2 rounded-full text-sm shadow-sm border">肉類 (和牛/豬排)</button>
+                <button onclick="filterFood('seafood')" class="bg-white text-slate-600 px-4 py-2 rounded-full text-sm shadow-sm border">海鮮/鰻魚</button>
+            </div>
+            <div id="food-list" class="grid md:grid-cols-3 gap-6">
+                </div>
+        </section>
+
+        <section id="prep" class="tab-content">
+            <div class="bg-white p-8 rounded-2xl shadow-sm space-y-6">
+                <h3 class="text-2xl font-bold">行前清單</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li>✅ 預約濃飛巴士 (D4 高山-白川鄉)</li>
+                        <li>✅ 預約行李寄送服務 (D6 富山-信濃大町)</li>
+                        <li>✅ 指定席劃位 (名古屋-高山 等)</li>
+                    </ul>
+                    <div class="p-4 bg-yellow-50 rounded-lg border border-yellow-100">
+                        <h4 class="font-bold text-yellow-800 text-sm mb-2">穿著注意</h4>
+                        <p class="text-xs text-yellow-700 leading-relaxed">立山黑部室堂溫差大，必須準備防滑鞋、太陽眼鏡(避免雪盲)與洋蔥式保暖層。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Tab Navigation Logic
+        function showSection(id) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Chart.js Configuration
+        const ctx = document.getElementById('timeChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels:,
+                datasets: [{
+                    label: '移動耗時 (分鐘)',
+                    data: ,
+                    backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444'],
+                    borderRadius: 8
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // Food Filtering Logic
+        const restaurants =;
+
+        function filterFood(type) {
+            const container = document.getElementById('food-list');
+            container.innerHTML = '';
+            const filtered = type === 'all'? restaurants : restaurants.filter(r => r.type === type);
+            filtered.forEach(r => {
+                container.innerHTML += `
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:border-indigo-200 transition">
+                        <h4 class="font-bold text-lg">${r.name}</h4>
+                        <p class="text-sm text-slate-500 mt-2">${r.desc}</p>
+                        <a href="${r.link}" target="_blank" class="mt-4 inline-block text-xs font-bold text-indigo-600">在 Google Maps 開啟 →</a>
+                    </div>
+                `;
+            });
+        }
+        filterFood('all');
+    </script>
+</body>
+</html>
