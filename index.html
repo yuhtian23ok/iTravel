@@ -129,7 +129,7 @@
         <!-- Trip Overview Card -->
         <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 mb-8">
             <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">2026 名古屋、高山、立山黑部 7日遊</h1>
-            <p class="text-gray-600 mb-4">日期：2026/5/10 (日) - 2026/5/16 (六) | 人數：4人</p>
+            <p class="text-gray-600 mb-4">日期：2026/5/24 (日) - 2026/5/30 (六) | 人數：3人</p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                 <div class="bg-orange-50 p-3 rounded-lg">
                     <div class="text-xs text-orange-600 font-semibold uppercase">風格</div>
@@ -351,25 +351,27 @@
         const itineraryData = [
             {
                 day: 1,
-                date: "5/10 (日)",
+                date: "5/24 (日)",
                 title: "抵達名古屋，市區漫步",
-                stay: "名古屋車站周邊 (推薦：JR Gate Tower Hotel)",
+                sunset: "18:56",
+                stay: "名古屋車站周邊 (名鐵格蘭飯店 名鉄グランドホテル車站)",
                 highlights: ["中部國際機場", "名鐵百貨", "世界の山ちゃん"],
                 timeline: [
                     { time: "05:40", action: "家裡包車出發~~", type: "home", note: "預計早上 06:00 到達桃園機場" },
                     { time: "07:30", action: "CI 154 離開桃園國際機場", type: "flight" },
                     { time: "11:20", action: "CI 154 抵達中部國際機場", type: "flight", note: "1. 辦理入境<br>2. 領JR周遊券<br>• 劃位 飛驒特急列車【名古屋車站 ➡ 高山車站】：右側位置<br>• 劃位 飛驒特急列車【高山車站 ➡ 富山車站】：左側位置<br>3. [可選]<br>• 可考慮在第1航廈先吃點東西<br>• 買蝦仙貝之里當零食、買水果三明治<br>4. 搭乘名鐵 μ-SKY 前往名古屋站 (約28分)" },
                     { time: "14:00", action: "(待確認)飯店 Check-in & 購買暖暖包", type: "hotel", note: "• 名鐵格蘭飯店 名鉄グランドホテル車站<br>• 附近藥妝店 (Matsukiyo) 採購保暖用品，不過5/11的高山上也有藥妝店" },
-                    { time: "18:00", action: "晚餐：世界の山ちゃん 手羽先", type: "food", link: "https://www.google.com/maps/search/?api=1&query=Sekai+no+Yamachan+Nagoya" },
+                    { time: "18:00", action: "(待確認)晚餐：世界の山ちゃん 手羽先", type: "food", link: "https://www.google.com/maps/search/?api=1&query=Sekai+no+Yamachan+Nagoya" },
                     { time: "20:00", action: "宿：名鐵格蘭飯店 名鉄グランドホテル車站", type: "rest", link: "https://www.google.com/maps/place/%E5%90%8D%E9%90%B5%E6%A0%BC%E8%98%AD%E9%A3%AF%E5%BA%97/@35.1684574,136.8818141,17z/data=!3m1!5s0x600376dde7215eeb:0x922749aab9beaa4d!4m10!3m9!1s0x600376dde144a0f7:0xb5a6a966b1810e48!5m3!1s2026-05-13!4m1!1i2!8m2!3d35.168453!4d136.884389!16s%2Fg%2F1tdy_x3y?entry=ttu&g_ep=EgoyMDI2MDEwNi4wIKXMDSoASAFQAw%3D%3D", note: "為明天行程儲備體力" },
                     { time: "24:00", action: "大行李箱將存放在飯店，等第6天回名古屋會住宿同一間飯店", type: "rest", note: "之後行程輕裝上路~" }
                 ]
             },           
             {
                 day: 2,
-                date: "5/11 (一)",
+                date: "5/25 (一)",
                 title: "搭乘飛驒號，前進高山",
-                stay: "高山站周邊 (推薦：Tokyu Stay Hida Takayama)",
+                sunset: "19:00",
+                stay: "高山站周邊 (Mukuri-an 無垢里庵)",
                 highlights: ["飛驒特急風景", "高山老街", "飛驒牛"],
                 note: "★啟用 JR 周遊券 Day 1",
                 timeline: [
@@ -382,42 +384,44 @@
             },
             {
                 day: 3,
-                date: "5/12 (二)",
-                title: "童話世界合掌村 & 飛驒古川",
-                stay: "高山站周邊",
-                highlights: ["白川鄉合掌村", "飛驒古川 (你的名字場景)"],
+                date: "5/26 (二)",
+                title: "童話世界合掌村",
+                sunset: "19:00",
+                stay: "白川鄉 (御宿 結之莊 天然温泉 ゆるりの湯 御宿 結の庄)",
+                highlights: ["白川鄉合掌村"],
                 timeline: [
-                    { time: "09:35", action: "搭乘濃飛巴士前往白川鄉", type: "bus", note: "需事先預約巴士<br>約 50 分鐘車程" },
-                    { time: "10:25", action: "探索合掌村", type: "walk", link: "https://www.google.com/maps/place/%E7%99%BD%E5%B7%9D%E9%84%89%E8%88%87%E4%BA%94%E7%AE%87%E5%B1%B1%E7%9A%84%E5%90%88%E6%8E%8C%E6%A7%8B%E9%80%A0%E6%9D%91%E8%90%BD/@36.2057011,136.9003177,12z/data=!4m15!1m8!3m7!1s0x5ff8707e4843cc7f:0x56043544d4617173!2z5pel5pys5bKQ6Zic57ij5aSn6YeO6YOh55m95bed5p2R!3b1!8m2!3d36.2710289!4d136.8985744!16zL20vMDM3bXZk!3m5!1s0x5ff871b0b6bf25e7:0xccc551bb9d5805f8!8m2!3d36.2577967!4d136.9061975!16zL20vMGZmd3By?entry=ttu&g_ep=EgoyMDI2MDEwNi4wIKXMDSoASAFQAw%3D%3D", note: "城山展望台、和田家參觀" },
-                    { time: "14:00", action: "巴士離開合掌村", type: "bus", note: "約 50 分鐘車程" },
-                    { time: "14:50", action: "(待確認)返回高山，轉 JR 去飛驒古川", type: "train", note: "約 20 分鐘車程" },
-                    { time: "15:00", action: "(待確認)飛驒古川散步", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Hida+Furukawa", note: "瀨戶川與白壁土藏街，餵鯉魚，人少清幽" },
-                    { time: "18:00", action: "回高山晚餐", type: "food", note: "" },
-                    { time: "20:00", action: "宿：Mukuri-an 無垢里庵", type: "rest", link: "https://www.mukurian.jp/index.html", note: "整棟式民宿，沒有附餐" }
+                    { time: "09:00", action: "宮川朝市/高山 散策", type: "walk", note: "-" },
+                    { time: "12:00", action: "(待確認)午餐：", type: "food", note: "-" },
+                    { time: "14:30", action: "高山巴士總站 -> 白川鄉巴士站", type: "bus", note: "搭乘濃飛巴士。需事先預約巴士<br>約 50 分鐘車程" },
+                    { time: "15:20", action: "探索合掌村", type: "walk", note: "城山展望台、和田家參觀" },                    
+                    { time: "18:00", action: "白川鄉巴士站 -> 旅館", type: "bus", link: "https://dormy-hotels.com/resort/hotels/shirakawago/access/#lnk_a3", note: "搭接駁車，無需預約。車程5分鐘" },
+                    { time: "20:00", action: "宿：御宿 結之莊 天然温泉 ゆるりの湯 御宿 結の庄", type: "rest", link: "https://dormy-hotels.com/resort/hotels/shirakawago/access/#lnk_a3", note: "附晚、早餐" }
                 ]
             },
             {
                 day: 4,
-                date: "5/13 (三)",
+                date: "5/27 (三)",
                 title: "移動至富山，玻璃之城",
-                stay: "富山站周邊 (推薦：Daiwa Roynet Hotel Toyama)",
+                sunset: "19:01",
+                stay: "富山站周邊 (富山日航城市酒店 ホテルJALシティ富山)",
                 highlights: ["富山玻璃美術館", "富岩運河環水公園", "白蝦"],
                 note: "★重要：今晚需將大型行李寄至 Day 7 名古屋飯店，或是 Day 6 住宿點(若當天能收)",
                 timeline: [
-                    { time: "11:03", action: "搭乘 Hida 號前往富山", type: "train", note: "約 1.5 小時" },
-                    { time: "12:36", action: "到達 JR富山站", type: "train" },
-                    { time: "12:40", action: "JR富山車站：機器取票【立山登山纜車】", type: "ticket", link: "https://tateyama-kurobe-webservice.jp/AlpenTour/html/VW802W0010.html", note: "【電鉄富山駅】自動受取機・稼働時間：午前５時００分~午後１１時００分" },
-                    { time: "13:00", action: "午餐：富山灣食堂 魚廣", type: "food", link: "https://www.google.com/maps/place/%E9%AE%AE%E9%AD%9A%E9%AD%9A%E5%BB%A3%E3%83%BB%E5%AF%8C%E5%B1%B1%E6%B9%BE%E9%A3%9F%E5%A0%82%E3%83%9E%E3%83%AB%E3%83%BC%E3%83%88%E5%BA%97/@36.7012683,137.2100018,17z/data=!3m1!5s0x5ff7909ce52ba121:0x972b50c45cd42838!4m6!3m5!1s0x5ff7910baaf38083:0xd1b78e2b37c20832!8m2!3d36.7012605!4d137.2112503!16s%2Fg%2F11sq_qg2lt?authuser=0&entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoASAFQAw%3D%3D", note: "海鮮非常新鮮" },
-                    { time: "14:00", action: "(待確認)富山玻璃美術館", type: "art", link: "https://www.google.com/maps/search/?api=1&query=Toyama+Glass+Art+Museum", note: "隈研吾設計，建築超美" },
-                    { time: "16:30", action: "(待確認)富岩運河環水公園", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Fugan+Canal+Kansui+Park", note: "世界最美星巴克喝咖啡" },                    
-                    { time: "17:30", action: "(待確認)晚餐", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Fugan+Canal+Kansui+Park", note: "" },                    
+                    { time: "9:55", action: "旅館 -> 白川鄉巴士站", type: "bus", note: "搭接駁車，無需預約。車程5分鐘" },
+                    { time: "10:00", action: "探索合掌村", type: "walk" },                    
+                    { time: "12:00", action: "(待確認)午餐：", type: "food", link: "https://www.google.com/maps/place/%E9%AE%AE%E9%AD%9A%E9%AD%9A%E5%BB%A3%E3%83%BB%E5%AF%8C%E5%B1%B1%E6%B9%BE%E9%A3%9F%E5%A0%82%E3%83%9E%E3%83%AB%E3%83%BC%E3%83%88%E5%BA%97/@36.7012683,137.2100018,17z/data=!3m1!5s0x5ff7909ce52ba121:0x972b50c45cd42838!4m6!3m5!1s0x5ff7910baaf38083:0xd1b78e2b37c20832!8m2!3d36.7012605!4d137.2112503!16s%2Fg%2F11sq_qg2lt?authuser=0&entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoASAFQAw%3D%3D", note: "海鮮非常新鮮" },
+                    { time: "14:10", action: "白川鄉巴士站 -> 富山巴士站", type: "bus", note: "搭乘濃飛巴士。需事先預約巴士<br>約 1小時20 分鐘車程，15:30抵達富山巴士站" },
+                    { time: "15:30", action: "JR富山車站：機器取票【立山登山纜車】", type: "ticket", link: "https://tateyama-kurobe-webservice.jp/AlpenTour/html/VW802W0010.html", note: "【電鉄富山駅】自動受取機・稼働時間：午前５時００分~午後１１時００分" },
+                    { time: "16:00", action: "飯店check in 或 富岩運河環水公園", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Fugan+Canal+Kansui+Park", note: "富岩運河環水公園有世界最美星巴克喝咖啡" },                    
+                    { time: "17:30", action: "(待確認)晚餐：富山灣食堂 魚廣", type: "food", link: "https://www.google.com/maps/place/%E9%AE%AE%E9%AD%9A%E9%AD%9A%E5%BB%A3%E3%83%BB%E5%AF%8C%E5%B1%B1%E6%B9%BE%E9%A3%9F%E5%A0%82%E3%83%9E%E3%83%AB%E3%83%BC%E3%83%88%E5%BA%97/@36.7012683,137.2100018,17z/data=!3m1!5s0x5ff7909ce52ba121:0x972b50c45cd42838!4m6!3m5!1s0x5ff7910baaf38083:0xd1b78e2b37c20832!8m2!3d36.7012605!4d137.2112503!16s%2Fg%2F11sq_qg2lt?authuser=0&entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoASAFQAw%3D%3D", note: "海鮮非常新鮮" },
                     { time: "19:00", action: "宿：富山日航城市酒店 ホテルJALシティ富山", type: "hotel", link: "https://www.google.com/maps/place/%E5%AF%8C%E5%B1%B1%E6%97%A5%E8%88%AA%E5%9F%8E%E5%B8%82%E9%85%92%E5%BA%97/@36.7012683,137.2100018,17z/data=!4m10!3m9!1s0x5ff791fcb46d957d:0x29f695e8bf7203ae!5m3!1s2026-05-13!4m1!1i2!8m2!3d36.701136!4d137.2104344!16s%2Fg%2F11q2l8bx2v?authuser=0&entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoASAFQAw%3D%3D" }
                 ]
             },
             {
                 day: 5,
-                date: "5/14 (四)",
+                date: "5/28 (四)",
                 title: "重頭戲：立山黑部阿爾卑斯路線",
+                sunset: "18:58",
                 stay: "信濃大町 或 松本 (推薦：松本站周邊)",
                 highlights: ["雪之大谷", "黑部水庫", "六種交通工具"],
                 note: "★需早起！請穿著防風保暖衣物、戴墨鏡。JR Pass 含此段交通。",
@@ -431,14 +435,15 @@
                     { time: "15:00", action: "黑部平 -> 黑部湖 -> 黑部水庫", type: "walk", note: "黑部登山纜車到黑部湖，之後走到黑部水庫(壯觀的水庫建設)" },
                     { time: "16:05", action: "黑部水庫 -> 扇澤", type: "walk", note: "関電隧道電氣巴士" },
                     { time: "16:35", action: "扇澤 -> 信濃大町", type: "bus", note: "結束穿越行程，17:10到達信濃大町" },
-                    { time: "18:00", action: "宿：信濃大町", type: "hotel", note: "宿：信濃大町" }
+                    { time: "18:00", action: "(待確認)宿：信濃大町 或 松本", type: "hotel", note: "宿：信濃大町" }
                 ]
             },
             {
                 day: 6,
-                date: "5/15 (五)",
+                date: "5/29 (五)",
                 title: "國寶松本城，返回名古屋購物",
-                stay: "名古屋車站周邊",
+                sunset: "19:00",
+                stay: "名古屋車站周邊 (名鐵格蘭飯店 名鉄グランドホテル車站)",
                 highlights: ["松本城", "大須商店街", "購物"],
                 timeline: [
                     { time: "09:30", action: "松本城 (國寶五城)", type: "history", link: "https://www.google.com/maps/search/?api=1&query=Matsumoto+Castle", note: "黑色城堡非常獨特，園區散步" },
@@ -451,8 +456,9 @@
             },
             {
                 day: 7,
-                date: "5/16 (六)",
+                date: "5/30 (六)",
                 title: "悠閒早餐，滿載而歸",
+                sunset: "到台灣拉~",
                 stay: "溫暖的家",
                 highlights: ["中部國際機場逛街", "回程"],
                 timeline: [
@@ -569,6 +575,7 @@
                         </div>
                         <div class="p-4 hidden day-details">
                             <div class="mb-3 text-xs bg-yellow-50 text-yellow-800 p-2 rounded">
+                                🌇 日落時間：${day.sunset} <br>
                                 🏠 住宿：${day.stay} <br>
                                 ✨ 亮點：${day.highlights.join('、')}
                                 ${day.note ? `<br>⚠️ ${day.note}` : ''}
@@ -731,6 +738,7 @@
 </body>
 
 </html>
+
 
 
 
