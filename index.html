@@ -249,9 +249,16 @@
                             </div>
                             <div class="text-xs text-gray-500">每日約 2,000 TWD。</div>
                         </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-gray-700">購物</span>
+                                <span class="font-bold text-purple-600">8,000 TWD</span>
+                            </div>
+                            <div class="text-xs text-gray-500">想怎麼買，就怎麼買~</div>
+                        </div>
                         <div class="pt-2 border-t border-gray-300 flex justify-between items-center">
                             <span class="text-lg font-bold text-gray-900">總計預估</span>
-                            <span class="text-xl font-bold text-teal-700">52,000 TWD</span>
+                            <span class="text-xl font-bold text-teal-700">60,000 TWD</span>
                         </div>
                     </div>
                 </div>
@@ -702,10 +709,10 @@
             new Chart(ctxBudget, {
                 type: 'doughnut',
                 data: {
-                    labels: ['機票', '住宿', '交通', '餐飲門票'],
+                    labels: ['機票', '住宿', '交通', '餐飲', '購物)'],
                     datasets: [{
-                        data: [18000, 21000, 6500, 14000],
-                        backgroundColor: ['#A78BFA', '#FBCFE8', '#99F6E4', '#FDE68A'],
+                        data: [15000, 15000, 8000, 14000, 8000],
+                        backgroundColor: ['#A78BFA', '#FBCFE8', '#99F6E4', '#FDE68A', '#C4F5CD'],
                         borderWidth: 0
                     }]
                 },
@@ -738,6 +745,7 @@
 </body>
 
 </html>
+
 
 
 
