@@ -355,26 +355,59 @@
     <script>
         // --- Data Definitions ---
 
-        const itineraryData = [
+        const itineraryData = [            
             {
                 day: 1,
                 date: "5/31 (日)",
                 title: "抵達名古屋，市區漫步",
                 sunset: "18:56",
-                stay: "名古屋車站周邊 (名鐵格蘭飯店 名鉄グランドホテル車站)",
+                stay: "名古屋車站周邊 (名鐵格蘭飯店)",
                 highlights: ["中部國際機場", "名鐵百貨", "世界の山ちゃん"],
                 timeline: [
                     { time: "05:40", action: "家裡包車出發~~", type: "home", note: "預計早上 06:00 到達桃園機場" },
                     { time: "07:30", action: "CI 154 離開桃園國際機場", type: "flight" },
                     { time: "11:20", action: "CI 154 抵達中部國際機場", type: "flight", note: "1. 辦理入境<br>2. 領JR周遊券<br>• 劃位 飛驒特急列車【名古屋車站 ➡ 高山車站】：右側位置<br>• 劃位 飛驒特急列車【高山車站 ➡ 富山車站】：左側位置<br>" },
                     { time: "12:00", action: "午餐：MARUYA 本店(鰻魚飯) (中部國際機場T1)", type: "food", note: "1. 可買(零食)蝦仙貝之里、(甜點)水果三明治；水果大福、(味噌燒豆腐)田樂茶屋KUSUMURA<br>2. 搭乘名鐵 μ-SKY 前往名古屋站 (約28分)" },
-                    { time: "14:00", action: "飯店 寄放行李", type: "hotel", link: "https://maps.app.goo.gl/SWSmdr4e12UiyZGC8", note: "• 名鐵格蘭飯店 名鉄グランドホテル車站<br>• Bi有HARBS" },
-                    { time: "14:30", action: "附近喝咖啡 or TOYOTA產業技術紀念館 or 購物(暖暖包；電器可以看看等6/5再買；uniqlo等衣服)", type: "hotel", note: "1. 附近藥妝店採購暖暖包，不過隔天6/1的抵達高山車站附近也有藥妝店<br>2. 可以先買uniqlo, Graniph, 茅乃舍, muji<br>3. 考慮在 3coin 買行李袋托運用<br>4. 甜點：<br>• 飯店大樓Bi有HARBS<br>• (泡芙)艾許奶油 Échiré Nagoya" },
+                    { 
+                        time: "14:00", 
+                        action: "飯店 寄放行李", 
+                        type: "hotel", 
+                        link: "https://maps.app.goo.gl/SWSmdr4e12UiyZGC8",
+                        notes: [
+                            "• 名鐵格蘭飯店 名鉄グランドホテル車站",
+                            { 
+                                text: "• B1有HARBS", 
+                                links: [{ name: "HARBS", url: "https://maps.app.goo.gl/GGPeNXwWoimPL8qp9" }] 
+                            }
+                        ]
+                    },
+                    { 
+                        time: "14:30", 
+                        action: "附近購物與咖啡", 
+                        type: "shopping", 
+                        notes: [
+                            "1. 附近藥妝店採購暖暖包，不過隔天6/1的抵達高山車站附近也有藥妝店",
+                            { 
+                                text: "2. 可以先買 uniqlo, Graniph, 茅乃舍, muji", 
+                                links: [
+                                    { name: "uniqlo", url: "https://maps.app.goo.gl/kKEBmScb4tY1hX4n6" },
+                                    { name: "Graniph", url: "https://maps.app.goo.gl/rWxW5wUWcQkGknpo8" },
+                                    { name: "茅乃舍", url: "https://maps.app.goo.gl/KxBzFLoSE3Wm5KcRA" },
+                                    { name: "muji", url: "https://maps.app.goo.gl/fkUpX1ksV3Nqk7J67" }
+                                ]
+                            },
+                            "3. 甜點",
+                            {
+                                text: "• 艾許奶油 Échiré",
+                                links: [{ name: "Échiré", url: "https://maps.app.goo.gl/yazqnALuvcNtey4F9" }]
+                            }
+                        ]
+                    },
                     { time: "18:00", action: "(待確認)晚餐：世界の山ちゃん 手羽先", type: "food", link: "https://www.google.com/maps/search/?api=1&query=Sekai+no+Yamachan+Nagoya" },
                     { time: "20:00", action: "宿：名鐵格蘭飯店 名鉄グランドホテル車站", type: "rest", link: "https://maps.app.goo.gl/SWSmdr4e12UiyZGC8", note: "為明天行程儲備體力<br>• Bi有HARBS" },
                     { time: "24:00", action: "晚上收好要寄放的行李箱，將行李箱拿到櫃檯寄放，待第6天(6/5)回名古屋會住宿同一間飯店", type: "rest", note: "之後行程輕裝上路~" }
                 ]
-            },           
+            },            
             {
                 day: 2,
                 date: "6/1 (一)",
@@ -546,32 +579,56 @@
         // Render Itinerary
         function renderItinerary() {
             const container = document.getElementById('timeline-container');
-            container.innerHTML = `<div class="timeline-line"></div>`; // Reset and add line
-
+            container.innerHTML = `<div class="timeline-line"></div>`; 
+        
             itineraryData.forEach((day, index) => {
                 const dayCard = document.createElement('div');
                 dayCard.className = 'relative mb-8 ml-8 group';
                 
-                // Dot
                 const dot = document.createElement('div');
                 dot.className = 'absolute -left-10 top-1 w-5 h-5 rounded-full bg-teal-500 border-4 border-white shadow-sm z-10';
                 dayCard.appendChild(dot);
-
-                // Content
+        
                 let timelineHTML = '';
                 day.timeline.forEach(item => {
-                    const linkBtn = item.link ? `<a href="${item.link}" target="_blank" class="text-teal-600 hover:text-teal-800 ml-2 text-xs border border-teal-200 px-1 rounded">📍地圖</a>` : '';
+                    const linkBtn = item.link ? `<a href="${item.link}" target="_blank" class="text-teal-600 hover:text-teal-800 ml-2 text-xs border border-teal-200 px-1 rounded inline-flex items-center">📍地圖</a>` : '';
+                    
+                    // --- 新增：處理小點 (Notes) 的邏輯 ---
+                    let notesHTML = '';
+                    if (item.notes && Array.isArray(item.notes)) {
+                        notesHTML = item.notes.map(n => {
+                            if (typeof n === 'string') {
+                                return `<div class="text-xs text-gray-500 mt-0.5">${n}</div>`;
+                            } else {
+                                // 如果是物件，則進行關鍵字取代加入連結
+                                let processedText = n.text;
+                                if (n.links) {
+                                    n.links.forEach(l => {
+                                        const mapTag = `<a href="${l.url}" target="_blank" class="text-teal-500 hover:underline inline-flex items-center ml-0.5">📍</a>`;
+                                        // 將文字中的店名後方加上小圖示
+                                        processedText = processedText.replace(l.name, `${l.name}${mapTag}`);
+                                    });
+                                }
+                                return `<div class="text-xs text-gray-500 mt-0.5">${processedText}</div>`;
+                            }
+                        }).join('');
+                    } else if (item.note) {
+                        // 相容舊有的單一字串格式
+                        notesHTML = `<div class="text-xs text-gray-500 mt-0.5">${item.note}</div>`;
+                    }
+        
                     timelineHTML += `
                         <div class="flex items-start mb-3 last:mb-0">
                             <div class="w-16 flex-shrink-0 text-sm font-bold text-gray-500">${item.time}</div>
                             <div class="flex-grow pb-2 border-b border-gray-100 last:border-0">
                                 <div class="text-sm font-semibold text-gray-800">${getIcon(item.type)} ${item.action} ${linkBtn}</div>
-                                ${item.note ? `<div class="text-xs text-gray-500 mt-0.5">${item.note}</div>` : ''}
+                                ${notesHTML}
                             </div>
                         </div>
                     `;
                 });
-
+        
+                // (其餘渲染 DayCard 的部分保持不變...)
                 dayCard.innerHTML += `
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
                         <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center cursor-pointer" onclick="toggleDay(this)">
@@ -587,7 +644,6 @@
                                 🌇 日落時間：${day.sunset} <br>
                                 🏠 住宿：${day.stay} <br>
                                 ✨ 亮點：${day.highlights.join('、')}
-                                ${day.note ? `<br>⚠️ ${day.note}` : ''}
                             </div>
                             <div>${timelineHTML}</div>
                         </div>
@@ -747,6 +803,7 @@
 </body>
 
 </html>
+
 
 
 
