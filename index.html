@@ -366,8 +366,33 @@
                 timeline: [
                     { time: "05:40", action: "家裡包車出發~~", type: "home", note: "預計早上 06:00 到達桃園機場" },
                     { time: "07:30", action: "CI 154 離開桃園國際機場", type: "flight" },
-                    { time: "11:20", action: "CI 154 抵達中部國際機場", type: "flight", note: "1. 辦理入境<br>2. 領JR周遊券<br>• 劃位 飛驒特急列車【名古屋車站 ➡ 高山車站】：右側位置<br>• 劃位 飛驒特急列車【高山車站 ➡ 富山車站】：左側位置<br>" },
-                    { time: "12:00", action: "午餐：MARUYA 本店(鰻魚飯) (中部國際機場T1)", type: "food", link: "https://maps.app.goo.gl/umzv3qo8kiZJc4xM6" , note: "1. 可買(零食)蝦仙貝之里、(甜點)水果三明治；水果大福、(味噌燒豆腐)田樂茶屋KUSUMURA<br>2. 搭乘名鐵 μ-SKY 前往名古屋站 (約28分)" },
+                    { time: "11:20", action: "CI 154 抵達中部國際機場", type: "flight", note: "1. 辦理入境<br>2. 領JR周遊券<br>• 劃位 飛驒特急列車【名古屋車站 ➡ 高山車站】：右側位置<br>• 劃位 飛驒特急列車【高山車站 ➡ 富山車站】：左側位置" },                    
+                    { 
+                        time: "12:00", 
+                        action: "午餐：MARUYA 本店(鰻魚飯) (中部國際機場T1)", 
+                        type: "food", 
+                        link: "https://maps.app.goo.gl/umzv3qo8kiZJc4xM6" ,
+                        notes: [
+                            "1. 可買：",
+                            {
+                                text: "• (零食)蝦仙貝之里",
+                                links: [{ name: "(零食)蝦仙貝之里", url: "https://maps.app.goo.gl/b68P346y1bNwGodt8" }]
+                            },
+                            {
+                                text: "• (甜點)水果三明治：Sora Sand - Handmade Sandwich 手づくりサンドイッチそら",
+                                links: [{ name: "手づくりサンドイッチそら", url: "https://maps.app.goo.gl/8vbnXVcKu2XvoWgj9" }]
+                            },
+                            {
+                                text: "• 水果大福：Kakuozan Furutsudaifuku Benzaiten Centrair 覚王山フルーツ大福 弁才天 中部国際空港店",
+                                links: [{ name: "覚王山フルーツ大福 弁才天 中部国際空港店", url: "https://maps.app.goo.gl/PCFoUKEuWAoVCFtg9" }]
+                            },
+                            {
+                                text: "• (味噌燒豆腐)田樂茶屋KUSUMURA",
+                                links: [{ name: "田樂茶屋KUSUMURA", url: "https://maps.app.goo.gl/Jdwov3YLKoj9Hd9w9" }]
+                            },
+                            "2. 搭乘名鐵 μ-SKY 前往名古屋站 (約28分)"
+                        ]
+                    },
                     { 
                         time: "14:00", 
                         action: "飯店寄放行李 (check-in：名鉄バスターミナルビル １１階)", 
@@ -391,6 +416,14 @@
                                 links: [{ name: "09:30~17:00)", url: "https://maps.app.goo.gl/opGvJJALSYxV77p39" }]
                             },
                             "2. 附近藥妝店採購暖暖包，不過隔天6/1的抵達高山車站附近也有藥妝店",
+                            {
+                                text: "• 大國 (較近，可用熊本熊卡，09:05~22:50)",
+                                links: [{ name: "09:05~22:50)", url: "https://maps.app.goo.gl/zDEePy2gryAhTzrLA" }]
+                            },
+                            {
+                                text: "• 千里馬藥局 (較便宜，09:00~22:00)",
+                                links: [{ name: "09:00~22:00)", url: "https://maps.app.goo.gl/5aGhTK89nyFsXpRM6" }]
+                            },
                             "3. 可以先買：",
                             {
                                 text: "• uniqlo (10:00~21:00)",
@@ -815,6 +848,7 @@
 </body>
 
 </html>
+
 
 
 
