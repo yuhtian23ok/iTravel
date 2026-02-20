@@ -99,6 +99,7 @@
                 <nav class="hidden md:flex space-x-8">
                     <button onclick="switchTab('itinerary')" class="nav-btn tab-active px-3 py-2 text-sm font-medium">行程規劃</button>
                     <button onclick="switchTab('transport')" class="nav-btn text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">旅費記帳</button>
+                    <button onclick="switchTab('creditcards')" class="nav-btn text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">信用卡消費</button>
                     <button onclick="switchTab('food')" class="nav-btn text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">美食地圖</button>
                     <button onclick="switchTab('budget')" class="nav-btn text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">預算分析</button>
                     <button onclick="switchTab('tips')" class="nav-btn text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">行前須知 & Q&A</button>
@@ -116,6 +117,7 @@
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <button onclick="switchTab('itinerary')" class="block w-full text-left px-3 py-2 text-base font-medium text-teal-700 bg-gray-50">行程規劃</button>
                 <button onclick="switchTab('transport')" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-50">旅費記帳</button>
+                <button onclick="switchTab('creditcards')" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-50">信用卡消費</button>
                 <button onclick="switchTab('food')" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-50">美食地圖</button>
                 <button onclick="switchTab('budget')" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-50">預算分析</button>
                 <button onclick="switchTab('tips')" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-50">行前須知 & Q&A</button>
@@ -165,27 +167,73 @@
 
         <!-- Section: Transport -->
         <section id="transport" class="tab-content hidden animate-fade-in">
-            <div class="flex justify-between items-end mb-4 border-l-4 border-blue-600 pl-3">
-                <h2 class="text-xl font-bold text-gray-800">即時旅費記帳</h2>
+            <div class="flex justify-between items-end mb-4 border-l-4 border-teal-600 pl-3">
+                <h2 class="text-xl font-bold text-gray-800">全部帳目紀錄</h2>
                 <div id="top-total-twd" class="text-xl font-black text-teal-700">NT$ 0</div>
             </div>
-            <div class="bg-white rounded-3xl p-6 shadow-sm mb-8 border border-gray-100">
-                <div class="flex gap-2 mb-4">
-                    <select id="add-day" class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-2xl text-sm outline-none">
-                        <option value="1">Day 1</option><option value="2">Day 2</option><option value="3">Day 3</option><option value="4">Day 4</option>
-                        <option value="5">Day 5</option><option value="6">Day 6</option><option value="7">Day 7</option><option value="8">Day 8</option>
+            <div class="bg-white rounded-3xl p-5 shadow-sm mb-8 border border-gray-100">
+                <div class="flex gap-2 mb-3">
+                    <select id="add-day" class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-xl text-sm outline-none">
+                        <option value="1">Day 1</option><option value="2">Day 2</option><option value="3">Day 3</option>
+                        <option value="4">Day 4</option><option value="5">Day 5</option><option value="6">Day 6</option><option value="7">Day 7</option>
                     </select>
-                    <select id="add-cat" class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-2xl text-sm outline-none">
-                        <option value="🍱">🍱 餐飲</option><option value="🚆">🚆 交通</option><option value="🛍️">🛍️ 購物</option><option value="🏨">🏨 住宿</option><option value="🎟️">🎟️ 門票</option>
+                    <select id="add-cat" class="flex-1 bg-gray-50 border border-gray-200 p-3 rounded-xl text-sm outline-none">
+                        <option value="🍱">🍱 餐飲</option><option value="🚆">🚆 交通</option>
+                        <option value="🛍️">🛍️ 購物</option><option value="🏨">🏨 住宿</option><option value="🎟️">🎟️ 門票</option>
                     </select>
                 </div>
-                <input type="text" id="add-item" placeholder="品項名稱" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-2xl mb-4 outline-none focus:border-teal-500">
+                <input type="text" id="add-item" placeholder="消費品項說明" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl mb-3 outline-none text-sm">
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <input type="number" id="add-jpy" placeholder="日幣金額" class="flex-[2] bg-teal-50 border border-teal-100 p-4 rounded-2xl font-bold text-teal-700 text-lg outline-none">
-                    <button onclick="handleCreate()" class="flex-1 bg-teal-700 text-white font-bold rounded-2xl shadow-lg tap-active">新增</button>
+                    <input type="number" id="add-jpy" placeholder="日幣金額 (JPY)" class="flex-[2] bg-teal-50 border border-teal-100 p-3 rounded-xl font-bold text-teal-700 text-lg outline-none">
+                    <button onclick="handleCreateFinance()" class="flex-1 bg-teal-700 text-white font-bold py-3 px-6 rounded-xl shadow-md active:scale-95 transition-transform">新增支出項目</button>
                 </div>
             </div>
-            <div id="render-target" class="space-y-6"></div>
+            <div id="finance-list" class="space-y-6"></div>
+        </section>
+
+        <section id="creditcards" class="tab-content hidden animate-fade-in">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 border-l-4 border-indigo-600 pl-3">信用卡消費紀錄</h2>
+            <div class="bg-white rounded-3xl p-5 shadow-sm mb-8 border border-gray-100">
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
+                    <div>
+                        <label class="text-[10px] text-gray-400 ml-1">刷卡日期</label>
+                        <input type="date" id="card-date" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl text-sm outline-none">
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-gray-400 ml-1">選擇信用卡</label>
+                        <select id="card-name" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl text-sm outline-none">
+                            <option value="吉鶴卡">吉鶴卡</option>
+                            <option value="熊本熊卡">熊本熊卡</option>
+                            <option value="永豐三井卡">永豐三井卡</option>
+                            <option value="星展ECO極簡">星展ECO極簡</option>
+                            <option value="星展ECO">星展ECO</option>
+                            <option value="永豐JCB">永豐JCB</option>
+                            <option value="台新Richart卡">台新Richart卡</option>
+                            <option value="全支付">全支付</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <label class="text-[10px] text-gray-400 ml-1">預估匯率</label>
+                        <input type="number" id="card-rate" value="0.215" step="0.001" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl text-sm outline-none">
+                    </div>
+                </div>
+                <input type="text" id="card-item" placeholder="消費品項 (例：Bic Camera 電器)" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl mb-3 text-sm outline-none">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="flex-[2] flex gap-2">
+                        <div class="flex-1">
+                            <label class="text-[10px] text-gray-400 ml-1">日幣金額</label>
+                            <input type="number" id="card-jpy" oninput="calcCardTWD()" placeholder="JPY" class="w-full bg-indigo-50 border border-indigo-100 p-3 rounded-xl font-bold text-indigo-700 text-lg outline-none">
+                        </div>
+                        <div class="flex-1">
+                            <label class="text-[10px] text-gray-400 ml-1">試算台幣</label>
+                            <input type="number" id="card-twd-calc" placeholder="TWD" class="w-full bg-orange-50 border border-orange-100 p-3 rounded-xl font-bold text-orange-700 text-lg outline-none">
+                        </div>
+                    </div>
+                    <button onclick="handleCreateCardEntry()" class="flex-1 bg-indigo-700 text-white font-bold py-3 rounded-xl mt-auto shadow-md">紀錄刷卡</button>
+                </div>
+            </div>
+            <div id="card-summary" class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"></div>
+            <div id="card-list" class="space-y-6"></div>
         </section>
 
         <!-- Section: Food Map -->
@@ -315,35 +363,31 @@
 
     </main>
 
-    <div id="modal-edit" class="hidden fixed inset-0 z-[60] modal-overlay flex items-center justify-center p-4">
+    <div id="modal-edit" class="hidden fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl">
-            <h2 class="text-xl font-black mb-6 text-gray-800">修改明細</h2>
+            <h2 class="text-xl font-black mb-6 text-gray-800">修改明細資料</h2>
             <div class="space-y-4">
-                <input type="text" id="edit-item" class="w-full border border-gray-200 p-4 rounded-2xl bg-gray-50 outline-none">
+                <div>
+                    <label id="edit-date-label" class="text-xs text-gray-400 ml-1">日期 / 天數</label>
+                    <input type="text" id="edit-date-val" class="w-full border border-gray-200 p-4 rounded-2xl bg-gray-50 outline-none">
+                </div>
+                <input type="text" id="edit-item-name" class="w-full border border-gray-200 p-4 rounded-2xl bg-gray-50 outline-none">
                 <div class="grid grid-cols-2 gap-3">
-                    <input type="number" id="edit-jpy" placeholder="日幣" class="w-full border border-gray-200 p-4 rounded-2xl font-bold text-teal-700">
-                    <input type="number" id="edit-twd" placeholder="台幣" class="w-full border-2 border-teal-100 p-4 rounded-2xl font-bold text-blue-700 bg-blue-50">
+                    <div><label class="text-xs text-gray-400">日幣</label><input type="number" id="edit-jpy-val" class="w-full border border-gray-200 p-4 rounded-2xl font-bold text-teal-700"></div>
+                    <div><label class="text-xs text-gray-400">正確台幣</label><input type="number" id="edit-twd-val" class="w-full border-2 border-teal-100 p-4 rounded-2xl font-bold text-blue-700 bg-blue-50"></div>
                 </div>
             </div>
             <div class="mt-8 flex flex-col gap-2">
-                <button onclick="saveChanges()" class="w-full py-4 bg-teal-800 text-white font-bold rounded-2xl">儲存修改</button>
+                <button onclick="confirmEdit()" class="w-full py-4 bg-teal-800 text-white font-bold rounded-2xl">儲存修改</button>
                 <div class="flex gap-2">
-                    <button onclick="showDeleteConfirm()" class="flex-1 py-4 text-red-500 font-bold">🗑️ 刪除</button>
-                    <button onclick="closeModals()" class="flex-1 py-4 text-gray-400">關閉</button>
+                    <button onclick="confirmDelete()" class="flex-1 py-4 text-red-500 font-bold">🗑️ 刪除</button>
+                    <button onclick="closeEditModal()" class="flex-1 py-4 text-gray-400">取消</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="modal-delete" class="hidden fixed inset-0 z-[70] modal-overlay flex items-center justify-center p-6">
-        <div class="bg-white w-full max-w-xs rounded-[2rem] p-8 shadow-2xl text-center">
-            <h3 class="text-lg font-black mb-6">確定刪除嗎？</h3>
-            <div class="flex gap-3">
-                <button onclick="hideDeleteConfirm()" class="flex-1 py-3 bg-gray-100 text-gray-500 rounded-xl">取消</button>
-                <button onclick="executeDelete()" class="flex-1 py-3 bg-red-600 text-white rounded-xl">刪除</button>
-            </div>
-        </div>
-    </div>
+    
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-300 py-6 mt-auto">
         <div class="max-w-7xl mx-auto px-4 text-center">
@@ -859,30 +903,127 @@
             { name: "茶房 布久庵", type: "dessert", desc: "高山古民家改建的甜點店，蕨餅與抹茶非常棒。", map: "https://www.google.com/maps/search/?api=1&query=Fukuan+Takayama" }
         ];
 
+        // --- 初始化狀態 ---
+        let financeEntries = JSON.parse(localStorage.getItem('nagoya_finance_v2')) || [];
+        let creditEntries = JSON.parse(localStorage.getItem('nagoya_credit_v2')) || [];
+        let currentEditId = null;
+        let currentEditSource = '';
+
+        document.getElementById('card-date').valueAsDate = new Date();
+
         // --- Logic & Render Functions ---
 
         // Tab Switching
         function switchTab(tabId) {
-            // Hide all contents
-            document.querySelectorAll('.tab-content').forEach(el => {
-                el.classList.add('hidden');
-            });
-            // Show selected
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(tabId).classList.remove('hidden');
-            
-            // Update Desktop Buttons
-            document.querySelectorAll('nav .nav-btn').forEach(btn => {
-                btn.classList.remove('tab-active', 'text-teal-700');
-                btn.classList.add('text-gray-500');
-                if (btn.getAttribute('onclick').includes(tabId)) {
-                    btn.classList.add('tab-active');
-                    btn.classList.remove('text-gray-500');
-                }
-            });
-
-            // Update Mobile Menu visual state (simplified)
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('tab-active'));
+            const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+            if(activeBtn) activeBtn.classList.add('tab-active');
             document.getElementById('mobile-menu').classList.add('hidden');
         }
+
+        // --- 旅費記帳邏輯 ---
+        function handleCreateFinance() {
+            const item = document.getElementById('add-item').value;
+            const jpy = parseFloat(document.getElementById('add-jpy').value);
+            if (!item || isNaN(jpy)) return;
+            financeEntries.push({ id: 'fin-'+Date.now(), day: parseInt(document.getElementById('add-day').value), cat: document.getElementById('add-cat').value, item, jpy, twd: Math.round(jpy * 0.215) });
+            saveAndRender();
+            document.getElementById('add-item').value = ''; document.getElementById('add-jpy').value = '';
+        }
+
+        function renderFinance() {
+            const container = document.getElementById('finance-list');
+            container.innerHTML = '';
+            let total = 0;
+            for(let d=1; d<=7; d++) {
+                const dayItems = financeEntries.filter(e => e.day === d);
+                if(dayItems.length === 0) continue;
+                const daySum = dayItems.reduce((a,c) => a + c.twd, 0);
+                total += daySum;
+                container.innerHTML += `<div class="mb-2 px-1 text-xs font-bold text-gray-400 uppercase">Day ${d} (NT$ ${daySum.toLocaleString()})</div>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-50 divide-y mb-4">
+                    ${dayItems.map(i => `<div onclick="openEditModal('${i.id}', 'finance')" class="p-4 flex justify-between items-center active:bg-gray-50 transition-colors">
+                        <div class="flex items-center gap-3"><span>${i.cat}</span><div><p class="text-sm font-bold">${i.item}</p><p class="text-[10px] text-gray-400">¥${i.jpy.toLocaleString()}</p></div></div>
+                        <div class="font-black text-teal-700 text-sm">NT$ ${i.twd.toLocaleString()}</div>
+                    </div>`).join('')}
+                </div>`;
+            }
+            document.getElementById('top-total-twd').innerText = 'NT$ ' + total.toLocaleString();
+        }
+
+        // --- 信用卡記帳邏輯 ---
+        function calcCardTWD() {
+            const jpy = document.getElementById('card-jpy').value;
+            const rate = document.getElementById('card-rate').value;
+            if(jpy && rate) document.getElementById('card-twd-calc').value = Math.round(jpy * rate);
+        }
+
+        function handleCreateCardEntry() {
+            const date = document.getElementById('card-date').value;
+            const card = document.getElementById('card-name').value;
+            const item = document.getElementById('card-item').value;
+            const jpy = parseFloat(document.getElementById('card-jpy').value);
+            const twd = parseFloat(document.getElementById('card-twd-calc').value);
+            if(!item || isNaN(jpy)) return;
+            creditEntries.push({ id: 'crd-'+Date.now(), date, card, item, jpy, twd });
+            creditEntries.sort((a,b) => new Date(b.date) - new Date(a.date));
+            saveAndRender();
+            document.getElementById('card-item').value = ''; document.getElementById('card-jpy').value = '';
+        }
+
+        function renderCredit() {
+            const listTarget = document.getElementById('card-list');
+            const summaryTarget = document.getElementById('card-summary');
+            listTarget.innerHTML = ''; summaryTarget.innerHTML = '';
+
+            const cards = ['吉鶴卡', '熊本熊卡', '永豐三井卡', '星展ECO極簡', '星展ECO', '永豐JCB', '台新Richart卡', '全支付'];
+            cards.forEach(cardName => {
+                const items = creditEntries.filter(e => e.card === cardName);
+                const sumTWD = items.reduce((a,c) => a + c.twd, 0);
+                summaryTarget.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                    <p class="text-[10px] text-gray-400 font-bold mb-1">${cardName}</p>
+                    <p class="text-lg font-black text-indigo-700">NT$ ${sumTWD.toLocaleString()}</p>
+                </div>`;
+                if(items.length > 0) {
+                    listTarget.innerHTML += `<div class="mb-2 px-1 text-xs font-bold text-gray-400 uppercase">${cardName} 消費明細</div>
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-50 divide-y mb-6">
+                        ${items.map(i => `<div onclick="openEditModal('${i.id}', 'credit')" class="p-4 flex justify-between items-center active:bg-gray-50">
+                            <div><p class="text-sm font-bold">${i.item} <span class="text-[9px] bg-gray-100 px-1 rounded">${i.date}</span></p>
+                            <p class="text-[10px] text-gray-400">¥${i.jpy.toLocaleString()}</p></div>
+                            <div class="font-black text-indigo-700 text-sm">NT$ ${i.twd.toLocaleString()}</div>
+                        </div>`).join('')}
+                    </div>`;
+                }
+            });
+        }
+
+        // --- 共用儲存與編輯 ---
+        function saveAndRender() {
+            localStorage.setItem('nagoya_finance_v2', JSON.stringify(financeEntries));
+            localStorage.setItem('nagoya_credit_v2', JSON.stringify(creditEntries));
+            renderFinance(); renderCredit();
+        }
+
+        function confirmEdit() {
+            const list = (currentEditSource === 'finance' ? financeEntries : creditEntries);
+            const idx = list.findIndex(e => e.id === currentEditId);
+            if (currentEditSource === 'finance') list[idx].day = parseInt(document.getElementById('edit-date-val').value);
+            else list[idx].date = document.getElementById('edit-date-val').value;
+            list[idx].item = document.getElementById('edit-item-name').value;
+            list[idx].jpy = parseFloat(document.getElementById('edit-jpy-val').value);
+            list[idx].twd = parseFloat(document.getElementById('edit-twd-val').value);
+            saveAndRender(); closeEditModal();
+        }
+
+        function confirmDelete() {
+            if(currentEditSource === 'finance') financeEntries = financeEntries.filter(e => e.id !== currentEditId);
+            else creditEntries = creditEntries.filter(e => e.id !== currentEditId);
+            saveAndRender(); closeEditModal();
+        }
+
+        function closeEditModal() { document.getElementById('modal-edit').classList.add('hidden'); }
 
         // Mobile Menu Toggle
         document.getElementById('mobile-menu-btn').addEventListener('click', () => {
@@ -1051,46 +1192,22 @@
         // --- [旅費記帳功能 (來自 finance.html)] ---
         let entries = JSON.parse(localStorage.getItem('trip_v5_data')) || [];
         let editingId = null;
-
-        function handleCreate() {
-            const item = document.getElementById('add-item').value.trim();
-            const jpy = parseFloat(document.getElementById('add-jpy').value);
-            if (!item || isNaN(jpy)) return;
-            entries.push({ id: 'exp-' + Date.now(), day: parseInt(document.getElementById('add-day').value), cat: document.getElementById('add-cat').value, item, jpy, twd: null });
-            syncAndRender();
-            document.getElementById('add-item').value = ''; document.getElementById('add-jpy').value = '';
+        
+        function openEditModal(id, source) {
+            currentEditId = id; currentEditSource = source;
+            const entry = (source === 'finance' ? financeEntries : creditEntries).find(x => x.id === id);
+            document.getElementById('edit-date-label').innerText = (source === 'finance' ? '旅行天數' : '刷卡日期');
+            document.getElementById('edit-date-val').value = (source === 'finance' ? entry.day : entry.date);
+            document.getElementById('edit-item-name').value = entry.item;
+            document.getElementById('edit-jpy-val').value = entry.jpy;
+            document.getElementById('edit-twd-val').value = entry.twd;
+            document.getElementById('modal-edit').classList.remove('hidden');
         }
-
-        function renderFinanceList() {
-            const target = document.getElementById('render-target');
-            target.innerHTML = '';
-            let totalTWD = 0;
-            for (let d = 1; d <= 8; d++) {
-                const dayItems = entries.filter(e => e.day === d);
-                if (dayItems.length === 0) continue;
-                const dayTwdTotal = dayItems.reduce((acc, curr) => acc + (curr.twd || 0), 0);
-                totalTWD += dayTwdTotal;
-                const section = document.createElement('div');
-                section.innerHTML = `
-                    <div class="flex justify-between text-xs font-bold text-gray-400 mb-2 px-1"><span>DAY ${d}</span><span>NT$ ${dayTwdTotal.toLocaleString()}</span></div>
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-50 divide-y divide-gray-50 overflow-hidden">
-                        ${dayItems.map(i => `<div onclick="openEditModal('${i.id}')" class="p-4 flex justify-between items-center tap-active cursor-pointer">
-                            <div class="flex items-center gap-3"><span>${i.cat}</span><div><p class="text-sm font-bold text-gray-800">${i.item}</p><p class="text-[10px] text-gray-400 font-mono">¥${i.jpy.toLocaleString()}</p></div></div>
-                            <div class="text-right">${i.twd ? `<p class="text-sm font-black text-gray-700">NT$ ${i.twd.toLocaleString()}</p>` : `<span class="text-[9px] text-red-400 font-bold bg-red-50 px-2 rounded-md">待填</span>`}</div>
-                        </div>`).join('')}
-                    </div>`;
-                target.appendChild(section);
-            }
-            document.getElementById('top-total-twd').innerText = 'NT$ ' + totalTWD.toLocaleString();
-        }
-
-        function syncAndRender() { localStorage.setItem('trip_v5_data', JSON.stringify(entries)); renderFinanceList(); }
-        function openEditModal(id) { editingId = id; const e = entries.find(x => x.id === id); document.getElementById('edit-item').value = e.item; document.getElementById('edit-jpy').value = e.jpy; document.getElementById('edit-twd').value = e.twd || ''; document.getElementById('modal-edit').classList.remove('hidden'); }
         function closeModals() { document.getElementById('modal-edit').classList.add('hidden'); document.getElementById('modal-delete').classList.add('hidden'); }
-        function saveChanges() { const idx = entries.findIndex(e => e.id === editingId); if (idx !== -1) { entries[idx].item = document.getElementById('edit-item').value.trim(); entries[idx].jpy = parseFloat(document.getElementById('edit-jpy').value) || 0; entries[idx].twd = document.getElementById('edit-twd').value ? parseFloat(document.getElementById('edit-twd').value) : null; syncAndRender(); closeModals(); } }
+        
         function showDeleteConfirm() { document.getElementById('modal-delete').classList.remove('hidden'); }
         function hideDeleteConfirm() { document.getElementById('modal-delete').classList.add('hidden'); }
-        function executeDelete() { entries = entries.filter(e => e.id !== editingId); syncAndRender(); closeModals(); }
+        
 
         // Initialize Charts
         function initCharts() {            
@@ -1123,7 +1240,8 @@
             renderItinerary();
             renderFood();
             initCharts();
-            renderFinanceList();
+            renderFinance();
+            renderCredit();
             // Default active
             document.querySelector('[onclick="switchTab(\'itinerary\')"]').classList.add('tab-active');
             
@@ -1136,40 +1254,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
