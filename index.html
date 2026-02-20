@@ -214,7 +214,7 @@
                     </div>
                     <div class="col-span-2 sm:col-span-1">
                         <label class="text-[10px] text-gray-400 ml-1">預估匯率</label>
-                        <input type="number" id="card-rate" value="0.215" step="0.001" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl text-sm outline-none">
+                        <input type="number" id="card-rate" value="0.205" step="0.001" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl text-sm outline-none">
                     </div>
                 </div>
                 <input type="text" id="card-item" placeholder="消費品項 (例：Bic Camera 電器)" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl mb-3 text-sm outline-none">
@@ -928,7 +928,7 @@
             const item = document.getElementById('add-item').value;
             const jpy = parseFloat(document.getElementById('add-jpy').value);
             if (!item || isNaN(jpy)) return;
-            financeEntries.push({ id: 'fin-'+Date.now(), day: parseInt(document.getElementById('add-day').value), cat: document.getElementById('add-cat').value, item, jpy, twd: Math.round(jpy * 0.215) });
+            financeEntries.push({ id: 'fin-'+Date.now(), day: parseInt(document.getElementById('add-day').value), cat: document.getElementById('add-cat').value, item, jpy, twd: Math.round(jpy * 0.205) });
             saveAndRender();
             document.getElementById('add-item').value = ''; document.getElementById('add-jpy').value = '';
         }
@@ -1254,3 +1254,4 @@
 </body>
 
 </html>
+
