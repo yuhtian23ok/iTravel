@@ -702,7 +702,11 @@
                                 text: "• 駿河屋 Asumo店 (09:00~21:00)", 
                                 links: [{ name: "(09:00~21:00)", url: "https://maps.app.goo.gl/4j3fM3Q4X7XcAf8C6" }]
                             },
-                            "3. 超商",
+                            {
+                                text: "3. 高山星巴克 (08:00~21:00)：漆器木杯 (買買~)", 
+                                links: [{ name: "08:00~21:00)", url: "https://maps.app.goo.gl/bT7dFoTbkyNmJZ9B7" }]
+                            },
+                            "4. 超商",
                             {
                                 text: "• 7-Eleven 高山名田町4丁目店 [距離民宿最近] (24hr)", 
                                 links: [{ name: "(24hr)", url: "https://maps.app.goo.gl/LqTFnGHktF7GnHWm8" }]
@@ -711,7 +715,7 @@
                                 text: "• 7-ELEVEN 高山岡本町店 [就在超市旁邊] (07:00~23:00)", 
                                 links: [{ name: "(07:00~23:00)", url: "https://maps.app.goo.gl/QXDteUVhRotjGmot6" }]
                             },
-                            "4. 藥妝店",
+                            "5. 藥妝店",
                             {
                                 text: "• SUGI藥局 高山本町店 [距離民宿最近] (09:00~22:00)", 
                                 links: [{ name: "(09:00~22:00)", url: "https://maps.app.goo.gl/6urhYbMwBVgY7sve9" }]
@@ -803,9 +807,32 @@
                             },
                             ]
                     },
-                    { time: "14:30", action: "高山巴士總站 ➜ 白川鄉巴士站", type: "bus", note: "搭乘濃飛巴士。需事先預約巴士<br>約 50 分鐘車程" },
+                    { 
+                        time: "14:30", 
+                        action: "高山巴士總站 ➜ 白川鄉巴士站", 
+                        type: "bus", 
+                        notes: [
+                            {
+                                text: "• 高山巴士總站", 
+                                links: [{ name: "高山巴士總站", url: "https://maps.app.goo.gl/7Ao5cJf84e8B63xv6" }]
+                            },
+                            "搭乘濃飛巴士。需事先預約巴士<br>約 50 分鐘車程" 
+                            ]
+                    },
                     { time: "15:20", action: "探索合掌村", type: "walk", note: "城山展望台、和田家參觀" },                    
-                    { time: "18:00", action: "白川鄉巴士站 ➜ 旅館 ，旅館接駁車時間表：", type: "bus", link: "https://dormy-hotels.com/resort/hotels/shirakawago/access/#lnk_a3", note: "搭旅館接駁車，無需預約。車程5分鐘" },
+                    { 
+                        time: "18:00", 
+                        action: "白川鄉巴士站 ➜ 旅館 ，旅館接駁車時間表：", 
+                        type: "bus", 
+                        link: "https://dormy-hotels.com/resort/hotels/shirakawago/access/#lnk_a3", 
+                        notes: [
+                            {
+                                text: "• 白川鄉巴士站", 
+                                links: [{ name: "白川鄉巴士站", url: "https://maps.app.goo.gl/Ym4qttdyXssdMshEA" }]
+                            },
+                            "搭旅館接駁車，無需預約。車程5分鐘" 
+                            ]
+                    },
                     { time: "20:00", action: "宿：御宿 結之莊 天然温泉 ゆるりの湯 御宿 結の庄", type: "rest", link: "https://dormy-hotels.com/resort/hotels/shirakawago/access/#lnk_a3", note: "附晚、早餐" }
                 ]
             },
@@ -892,7 +919,18 @@
                             }
                         ]
                     },
-                    { time: "14:10", action: "白川鄉巴士站 ➜ 富山巴士站", type: "bus", note: "搭乘濃飛巴士。需事先預約巴士<br>約 1小時20 分鐘車程，15:30抵達富山巴士站" },
+                    { 
+                        time: "14:10", 
+                        action: "白川鄉巴士站 ➜ 富山巴士站", 
+                        type: "bus", 
+                        notes: [
+                            {
+                                text: "• 白川鄉巴士站", 
+                                links: [{ name: "白川鄉巴士站", url: "https://maps.app.goo.gl/Ym4qttdyXssdMshEA" }]
+                            },
+                            "搭乘濃飛巴士。需事先預約巴士<br>約 1小時20 分鐘車程，15:30抵達富山巴士站" 
+                            ]
+                    },
                     { time: "15:30", action: "JR富山車站：機器取票【立山登山纜車】", type: "ticket", link: "https://tateyama-kurobe-webservice.jp/AlpenTour/html/VW802W0010.html", note: "【電鉄富山駅】自動受取機・稼働時間：午前５時００分~午後１１時００分" },
                     { time: "16:00", action: "飯店check in 或 富岩運河環水公園", type: "walk", link: "https://www.google.com/maps/search/?api=1&query=Fugan+Canal+Kansui+Park", note: "富岩運河環水公園有世界最美星巴克喝咖啡" },                    
                     { time: "17:30", action: "晚餐：富山灣食堂 魚廣", type: "food", link: "https://maps.app.goo.gl/kA1WY8ptYt3WjZkC8", note: "海鮮非常新鮮" },
@@ -1436,6 +1474,7 @@
 </body>
 
 </html>
+
 
 
 
