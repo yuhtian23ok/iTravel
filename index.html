@@ -413,7 +413,7 @@
                     { time: "11:20", action: "CI 154 抵達中部國際機場", type: "flight", note: "1. 辦理入境<br>2. 領JR周遊券<br>• 劃位 飛驒特急列車【名古屋車站 ➡ 高山車站】：右側位置<br>• 劃位 飛驒特急列車【高山車站 ➡ 富山車站】：左側位置" },                    
                     { 
                         time: "12:00", 
-                        action: "午餐：MARUYA 本店(鰻魚飯) (中部國際機場T1)", 
+                        action: "不餓的話可以直接去飯店放行李，然後去TOYOTA產業技術紀念館 or 午餐：MARUYA 本店(鰻魚飯) (中部國際機場T1)", 
                         type: "food", 
                         link: "https://maps.app.goo.gl/umzv3qo8kiZJc4xM6" ,
                         notes: [
@@ -1016,7 +1016,7 @@
                     { time: "14:20", action: "大觀峰 ➜ 黑部平", type: "cablecar", note: "• 空中纜車，推薦黑部平車站頂樓的展望台往回看大觀峰車站<br>-- 14:27到黑部平" },
                     { time: "15:00", action: "黑部平 ➜ 黑部湖 -> 黑部水庫", type: "walk", note: "• 黑部登山纜車到黑部湖，之後走到黑部水庫(壯觀的水庫建設)<br>-- 15:05到黑部湖" },
                     { time: "16:05", action: "黑部水庫 ➜ 扇澤", type: "walk", note: "• 関電隧道電氣巴士<br>-- 16:21到扇澤" },
-                    { time: "16:35", action: "扇澤 ➜ 日向山高原駅", type: "bus", note: "• 結束穿越行程<br>--此公車路線是：扇澤 ➜ 信濃大町，搭一站約15分鐘抵達 日向山高原駅<br>-- 16:50到達日向山高原駅，再走去飯店check in" },
+                    { time: "16:35", action: "扇澤 ➜ 日向山高原駅", type: "bus", note: "• 結束穿越行程<br>--公車路線：扇澤 ➜ 信濃大町<br>--扇澤上車，搭一站約15分鐘抵達 日向山高原駅<br>-- 16:50到達日向山高原駅，再走去飯店check in" },
                     { time: "18:00", action: "信濃大町黑四全日空假日渡假酒店 ANAホリデイ・インリゾート信濃大町くろよん", type: "hotel", link: "https://www.google.com/maps/place/%E4%BF%A1%E6%BF%83%E5%A4%A7%E7%94%BA%E9%BB%91%E5%9B%9B%E5%85%A8%E6%97%A5%E7%A9%BA%E5%81%87%E6%97%A5%E6%B8%A1%E5%81%87%E9%85%92%E5%BA%97/@36.6604549,137.1459003,12.5z/data=!4m10!3m9!1s0x5ff7df2896cdb1f1:0xff0b57ef9f34d90c!5m3!1s2026-06-01!4m1!1i2!8m2!3d36.5296059!4d137.7949829!16s%2Fg%2F1229d68n?authuser=0&entry=ttu&g_ep=EgoyMDI2MDEyOC4wIKXMDSoASAFQAw%3D%3D", note: "• 附早餐<br>• check in後加點晚餐，費用6300JYP/人" }
                 ]
             },
@@ -1029,9 +1029,31 @@
                 highlights: ["長時間通勤好辛~苦~", "蕎麥麵吃吃"],
                 timeline: [
                     { time: "09:30", action: "飯店 ➜ 信濃大町", type: "bus", note: "叫車到信濃大町火車站" },
-                    { time: "10:17", action: "信濃大町 ➜ 松本", type: "train", note: "搭火車。車程約 1 小時，11:20抵達松本" },
+                    { 
+                        time: "10:17", 
+                        action: "信濃大町 ➜ 松本", 
+                        type: "train", 
+                        notes: [
+                            "• 搭火車。車程約 1 小時，11:20抵達松本<br>--搭乘大系線，往松本，坐到底(會經過19站)<br>--其他更早班次(信濃大町 ➜ 松本)：09:30~10:34、08:26~09:39",
+                            {
+                                text: "--大糸線 上り (糸魚川－南小谷－松本) 時刻表：",
+                                links: [{ name: "表：", url: "https://timetables.jreast.co.jp/2603/timetable-v/230u1.html#time_21" }]
+                            },
+                            ]
+                    },
                     { time: "11:30", action: "午餐：そばきり みよ田 松本店 [蕎麥麵]", type: "food", link: "https://maps.app.goo.gl/56pNzGNX5Ff2sNJT7", note: "信州蕎麥麵聞名，也可吃別間~<br>• 營業時間：11:30~15:30" },
-                    { time: "12:53", action: "松本 ➜ 名古屋", type: "train", note: "搭乘 Shinano 特急回名古屋。車程約 2 小時，15:01抵達名古屋" },
+                    { 
+                        time: "12:53", 
+                        action: "松本 ➜ 名古屋", 
+                        type: "train", 
+                        notes: [
+                            "• 搭乘 Shinano 12號 特急回名古屋。車程約 2 小時，15:01抵達名古屋<br>--往名古屋，坐到底",
+                            {
+                                text: "--中央本線・篠ノ井線 上り (長野－塩尻－中津川) 時刻表：",
+                                links: [{ name: "表：", url: "https://timetables.jreast.co.jp/2603/timetable-v/116u1.html#time_21" }]
+                            },
+                            ]
+                    },
                     { 
                         time: "15:30", 
                         action: "補貨拉~~名古屋購物時間", 
