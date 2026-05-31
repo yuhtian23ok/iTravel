@@ -131,7 +131,7 @@
         <!-- Trip Overview Card -->
         <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 mb-8">
             <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">2026 名古屋、高山、立山黑部 7日遊</h1>
-            <p class="text-gray-600 mb-4">日期：2026/5/31 (日) - 2026/6/6 (六) | 人數：3人</p>
+            <p class="text-gray-600 mb-4">日期：2026/6/8 (一) - 2026/6/14 (日) | 人數：4人</p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                 <div class="bg-orange-50 p-3 rounded-lg">
                     <div class="text-xs text-orange-600 font-semibold uppercase">風格</div>
@@ -402,7 +402,7 @@
         const itineraryData = [            
             {
                 day: 1,
-                date: "5/31 (日)",
+                date: "6/8 (一)",
                 title: "抵達名古屋，市區漫步",
                 sunset: "18:56",
                 stay: "名古屋車站周邊 (名鐵格蘭飯店)",
@@ -601,7 +601,7 @@
             },            
             {
                 day: 2,
-                date: "6/1 (一)",
+                date: "6/9 (二)",
                 title: "搭乘飛驒號，前進高山",
                 sunset: "19:00",
                 stay: "高山站周邊 (Mukuri-an 無垢里庵)",
@@ -764,7 +764,7 @@
             },
             {
                 day: 3,
-                date: "6/2 (二)",
+                date: "6/10 (三)",
                 title: "童話世界合掌村 (白川村：しらかわむら)",
                 sunset: "19:00",
                 stay: "白川鄉 (御宿 結之莊 天然温泉 ゆるりの湯 御宿 結の庄)",
@@ -875,7 +875,7 @@
             },
             {
                 day: 4,
-                date: "6/3 (三)",
+                date: "6/11 (四)",
                 title: "移動至富山，玻璃之城",
                 sunset: "19:01",
                 stay: "富山站周邊 (富山日航城市酒店 ホテルJALシティ富山)",
@@ -1011,7 +1011,7 @@
             },
             {
                 day: 5,
-                date: "6/4 (四)",
+                date: "6/12 (五)",
                 title: "重頭戲：立山黑部阿爾卑斯路線",
                 sunset: "18:58",
                 stay: "信濃大町 或 松本 (推薦：松本站周邊)",
@@ -1051,8 +1051,8 @@
             },
             {
                 day: 6,
-                date: "6/5 (五)",
-                title: "國寶松本城，返回名古屋購物",
+                date: "6/13 (六)",
+                title: "返回名古屋購物",
                 sunset: "19:00",
                 stay: "名古屋車站周邊 (名鐵格蘭飯店 名鉄グランドホテル車站)",
                 highlights: ["長時間通勤好辛~苦~", "蕎麥麵吃吃"],
@@ -1069,22 +1069,23 @@
                                 links: [{ name: "表：", url: "https://timetables.jreast.co.jp/2603/timetable-v/230u1.html#time_21" }]
                             },
                             ]
-                    },
-                    { time: "11:30", action: "午餐：そばきり みよ田 松本店 [蕎麥麵]", type: "food", link: "https://maps.app.goo.gl/56pNzGNX5Ff2sNJT7", note: "信州蕎麥麵聞名，也可吃別間~<br>• 營業時間：11:30~15:30" },
+                    },                    
                     { 
-                        time: "12:53", 
+                        time: "11:53", 
                         action: "松本 ➜ 名古屋", 
                         type: "train", 
                         notes: [
-                            "• 搭乘 Shinano 12號 特急回名古屋。車程約 2 小時，15:01抵達名古屋<br>--1號月臺。往名古屋，坐到底",
+                            "• 搭乘 Shinano 12號 特急回名古屋。車程約 2 小時，14:01抵達名古屋<br>--1號月臺。往名古屋，坐到底",
                             {
                                 text: "--中央本線・篠ノ井線 上り (長野－塩尻－中津川) 時刻表：",
                                 links: [{ name: "表：", url: "https://timetables.jreast.co.jp/2603/timetable-v/116u1.html#time_21" }]
                             },
                             ]
                     },
+                    { time: "14:15", action: "飯店check-in。寄放行李", type: "rest"},
+                    { time: "14:30", action: "午餐：炭焼うな富士 (11:00~21:00)", type: "food", link: "https://maps.app.goo.gl/evNgwYDR5AtxP3348", note: "評價超好的鰻魚飯~" },
                     { 
-                        time: "15:30", 
+                        time: "16:30", 
                         action: "補貨拉~~名古屋購物時間", 
                         type: "shopping", 
                         notes: [
@@ -1109,15 +1110,6 @@
                             },
                         ]
                     },                    
-                    { 
-                        time: "17:30", 
-                        action: "晚餐：炭焼うな富士 (11:00~21:00)", 
-                        type: "food", 
-                        link: "https://maps.app.goo.gl/evNgwYDR5AtxP3348",
-                        notes: [
-                           "已預約。評價超好的鰻魚飯~"
-                        ]
-                    },
                     { 
                         time: "20:00", 
                         action: "超市買水果~", 
@@ -1148,15 +1140,15 @@
             },
             {
                 day: 7,
-                date: "6/6 (六)",
+                date: "6/14 (日)",
                 title: "悠閒早餐，滿載而歸",
                 sunset: "到台灣拉~",
                 stay: "溫暖的家",
                 highlights: ["中部國際機場逛街", "回程"],
                 timeline: [
                     { time: "08:00", action: "悠閒早餐 & 最後整理", type: "rest", note: "檢查護照與戰利品" },
-                    { time: "09:00", action: "前往中部國際機場", type: "train", note: "搭乘 μ-SKY" },
-                    { time: "10:00", action: "機場逛街 (Flight of Dreams)", type: "shopping", note: "機場非常好逛，有蝦餅可買" },
+                    { time: "08:30", action: "前往中部國際機場", type: "train", note: "包車送機" },
+                    { time: "09:30", action: "機場逛街 (Flight of Dreams)", type: "shopping", note: "機場非常好逛，有蝦餅可買" },
                     { time: "12:20", action: "CI 155 起飛", type: "flight" },
                     { time: "14:30", action: "CI 155 降落桃園機場", type: "flight" }
                 ]
