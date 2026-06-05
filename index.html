@@ -864,7 +864,7 @@
                             },
                             "--搭乘濃飛巴士。需事先預約巴士<br>--搭乘一站，約 50 分鐘車程",
                             {
-                                text: "--展示票券網站(登入後看My page)：", 
+                                text: "--展示票券網站(登入後看My page)", 
                                 links: [{ name: "page)", url: "https://secure.j-bus.co.jp/hon/Mypage" }]
                             },
                             ]
@@ -980,7 +980,7 @@
                             },
                             "--搭乘濃飛巴士。需事先預約巴士<br>--搭乘一站，約 1小時20 分鐘車程，15:30抵達富山巴士站",
                             {
-                                text: "--展示票券網站(登入後看My page)：", 
+                                text: "--展示票券網站(登入後看My page)", 
                                 links: [{ name: "page)", url: "https://secure.j-bus.co.jp/hon/Mypage" }]
                             },
                             ]
@@ -1068,8 +1068,25 @@
                     { time: "14:20", action: "大觀峰 ➜ 黑部平 (くろべだいら)", type: "cablecar", note: "• 空中纜車，推薦黑部平車站頂樓的展望台往回看大觀峰車站<br>• 黑部平有觀景台<br>-- 14:27到黑部平" },
                     { time: "15:00", action: "黑部平 ➜ 黑部湖 (くろべこ) -> 黑部水庫 (くろべだむ)", type: "walk", note: "• 黑部登山纜車到黑部湖<br>• 黑部湖有遊覽船~~可以花錢搭 (大概1200日幣/人)<br>• 到黑部湖之後走到黑部水庫(壯觀的水庫建設)<br>• 黑部水庫有觀景台<br>-- 15:05到黑部湖" },
                     { time: "16:05", action: "黑部水庫 ➜ 扇澤 (おうぎさわ)", type: "walk", note: "• 関電隧道電氣巴士<br>-- 16:21到扇澤<br>• 扇澤有觀景台" },
-                    { time: "16:35", action: "扇澤 ➜ 日向山高原駅 (ひなたやま こうげん)", type: "bus", note: "• 結束穿越行程<br>--公車路線：扇澤 ➜ 信濃大町<br>--扇澤買票後上車，搭一站約15分鐘抵達 日向山高原駅<br>-- 16:50到達日向山高原駅，再走去飯店check in" },
-                    { time: "18:00", action: "信濃大町黑四全日空假日渡假酒店 ANAホリデイ・インリゾート信濃大町くろよん", type: "hotel", link: "https://www.google.com/maps/place/%E4%BF%A1%E6%BF%83%E5%A4%A7%E7%94%BA%E9%BB%91%E5%9B%9B%E5%85%A8%E6%97%A5%E7%A9%BA%E5%81%87%E6%97%A5%E6%B8%A1%E5%81%87%E9%85%92%E5%BA%97/@36.6604549,137.1459003,12.5z/data=!4m10!3m9!1s0x5ff7df2896cdb1f1:0xff0b57ef9f34d90c!5m3!1s2026-06-01!4m1!1i2!8m2!3d36.5296059!4d137.7949829!16s%2Fg%2F1229d68n?authuser=0&entry=ttu&g_ep=EgoyMDI2MDEyOC4wIKXMDSoASAFQAw%3D%3D", note: "• 附早餐<br>• check in後加點晚餐，費用6300JYP/人" }
+                    { 
+                        time: "16:35",
+                        action: "扇澤 ➜ 信濃大町駅，巴士時間表：",
+                        type: "bus", 
+                        link: "https://www.alpico.co.jp/traffic/local/hakuba/ogizawa/",
+                        notes: [
+                            "• 結束穿越行程",
+                            "--公車路線：扇澤 ➜ 信濃大町",
+                            "--扇澤買票後上車，搭到底約35分鐘抵達 信濃大町駅",
+                            "-- 17:10到達信濃大町駅，再走去飯店check in"
+                            ]
+                    },
+                    { 
+                        time: "18:00", 
+                        action: "Route Inn 信濃大町站前 (ホテルルートイン信濃大町駅前)", 
+                        type: "hotel", 
+                        link: "https://maps.app.goo.gl/sqdfxXsGVkcbU9PVA", 
+                        note: "• 附早餐" 
+                    }
                 ]
             },
             {
